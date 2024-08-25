@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: localweb
+    environment:
+      MYSQL_ROOT_PASSWORD: localweb123
+      MYSQL_DATABASE: localweb
+      MYSQL_USER: localweb
+      MYSQL_PASSWORD: localweb123
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
