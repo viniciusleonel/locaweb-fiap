@@ -25,12 +25,6 @@ class ErrorHandler {
         return ResponseEntity(errors, HttpStatus.BAD_REQUEST)
     }
 
-    @ExceptionHandler(NotFoundException::class)
-    fun handleNotFoundException(ex: NotFoundException): ResponseEntity<Map<String, String?>> {
-        val error = mapOf("error" to ex.message)
-        return ResponseEntity(error, HttpStatus.NOT_FOUND)
-    }
-
     @ExceptionHandler(EntityNotFoundException::class)
     fun tratarErro404(ex: EntityNotFoundException): ResponseEntity<*> {
         return ResponseEntity

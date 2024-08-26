@@ -2,7 +2,6 @@ package br.dev.viniciusleonel.localweb.service
 
 import br.dev.viniciusleonel.localweb.dto.UserDTO
 import br.dev.viniciusleonel.localweb.dto.UserUpdateDTO
-import br.dev.viniciusleonel.localweb.infra.exception.NotFoundException
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.repository.UserRepository
 import br.dev.viniciusleonel.localweb.utils.toModel
@@ -35,7 +34,7 @@ class UserService(private val repository: UserRepository) {
     fun updateUser(id: Long, updateUserDTO: UserUpdateDTO): User {
         // Encontre o usuário existente
         val user = repository.findById(id)
-            .orElseThrow { NotFoundException("User not found with id: $id") }
+            .orElseThrow { EntityNotFoundException("User not found with id: $id") }
 
         // Atualize os campos conforme fornecido no DTO, com validação
         user.updateFromDTO(updateUserDTO)
@@ -48,7 +47,7 @@ class UserService(private val repository: UserRepository) {
     @Transactional
     fun deleteUser(id: Long) {
         val user = repository.findById(id)
-        .orElseThrow { NotFoundException("User not found with id: $id") }
+        .orElseThrow { EntityNotFoundException("User not found with id: $id") }
         repository.delete(user)
     }
 
