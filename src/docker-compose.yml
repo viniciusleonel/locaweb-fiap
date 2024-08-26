@@ -3,12 +3,12 @@ version: '3.8'
 services:
   db:
     image: mysql:8.0
-    container_name: localweb
+    container_name: locaweb
     environment:
-      MYSQL_ROOT_PASSWORD: localweb123
-      MYSQL_DATABASE: localweb
-      MYSQL_USER: localweb
-      MYSQL_PASSWORD: localweb123
+      MYSQL_ROOT_PASSWORD: locaweb123
+      MYSQL_DATABASE: locaweb
+      MYSQL_USER: locaweb
+      MYSQL_PASSWORD: locaweb123
     ports:
       - "3306:3306"
     volumes:
