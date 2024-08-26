@@ -19,3 +19,11 @@ fun UserUpdateDTO.toModel(): User {
         password = this.password.toString()
     )
 }
+
+// Extensão para atualizar um User com base em UserUpdateDTO
+fun User.updateFromDTO(updateUserDTO: UserUpdateDTO) {
+    updateUserDTO.username?.takeIf { it.isNotBlank() }?.let { this.username = it }
+    updateUserDTO.email?.takeIf { it.isNotBlank() }?.let { this.email = it }
+    updateUserDTO.password?.takeIf { it.isNotBlank() }?.let { this.password = it }
+}
+

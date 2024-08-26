@@ -7,6 +7,7 @@ import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.repository.UserRepository
 import br.dev.viniciusleonel.localweb.utils.toModel
 import br.dev.viniciusleonel.localweb.utils.toUserPreferencesModel
+import br.dev.viniciusleonel.localweb.utils.updateFromDTO
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class UserService(private val repository: UserRepository) {
     fun getUserPreferences(id: Long): User {
-        return repository.findById(id).orElseThrow { EntityNotFoundException("Preferences not found") }
+        return repository.findById(id).orElseThrow { EntityNotFoundException("User not found with id: $id") }
     }
 
     @Transactional
@@ -36,14 +37,13 @@ class UserService(private val repository: UserRepository) {
         val user = repository.findById(id)
             .orElseThrow { NotFoundException("User not found with id: $id") }
 
-        // Atualize os campos conforme fornecido no DTO
-        updateUserDTO.username?.let { user.username = it }
-        updateUserDTO.email?.let { user.email = it }
-        updateUserDTO.password?.let { user.password = it }
+        // Atualize os campos conforme fornecido no DTO, com validação
+        user.updateFromDTO(updateUserDTO)
 
         // Salve as alterações no mesmo objeto
         return repository.save(user)
     }
+
 
     @Transactional
     fun deleteUser(id: Long) {

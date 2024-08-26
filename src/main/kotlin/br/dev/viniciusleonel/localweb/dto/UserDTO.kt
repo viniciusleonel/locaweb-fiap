@@ -9,9 +9,9 @@ data class UserDTO(
     @field:Email(message = "Invalid email format")
     var email: String,
 
-    @field:NotBlank(message = "Email is mandatory")
+    @field:NotBlank(message = "Username is mandatory")
     var username: String,
 
-    @field:NotBlank(message = "Email is mandatory")
+    @field:NotBlank(message = "Password is mandatory")
     var password: String,
 )
