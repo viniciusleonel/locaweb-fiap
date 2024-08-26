@@ -1,5 +1,6 @@
 package br.dev.viniciusleonel.localweb.model
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -18,6 +19,7 @@ data class Email(
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     var user: User? = null
 )
 
