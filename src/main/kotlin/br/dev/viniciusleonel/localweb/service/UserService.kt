@@ -15,17 +15,17 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserService(private val repository: UserRepository) {
-    fun getUserPreferences(id: Long): User {
+    fun getUserById(id: Long): User {
         return repository.findById(id).orElseThrow { EntityNotFoundException("User not found with id: $id") }
     }
 
     @Transactional
-    fun insertUserPreferences(userDTO: UserDTO) {
+    fun insertUser(userDTO: UserDTO) {
         val user = userDTO.toModel()
         repository.save(user)
     }
 
-    fun finAllPageable(pageable: Pageable): Page<User> {
+    fun listUsers(pageable: Pageable): Page<User> {
         val page = repository.findAll(pageable)
         return page.toUserPreferencesModel()
     }

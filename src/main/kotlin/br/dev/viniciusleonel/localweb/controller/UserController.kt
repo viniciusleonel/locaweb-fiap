@@ -17,7 +17,7 @@ class UserController(private val service: UserService) {
 
     @PostMapping
     fun insertUser(@RequestBody @Valid userDTO: UserDTO): ResponseEntity<UserDTO> {
-        service.insertUserPreferences(userDTO)
+        service.insertUser(userDTO)
         return ResponseEntity.ok(userDTO)
     }
 
@@ -29,7 +29,7 @@ class UserController(private val service: UserService) {
 
     @GetMapping("/{userId}")
     fun getUser(@PathVariable userId: Long): ResponseEntity<User> {
-        val preferences = service.getUserPreferences(userId)
+        val preferences = service.getUserById(userId)
         return ResponseEntity.ok(preferences)
     }
 
@@ -41,7 +41,7 @@ class UserController(private val service: UserService) {
 
     @GetMapping
     fun getAll(@PageableDefault(size = 10, sort = ["id"])pageable: Pageable ): ResponseEntity<Page<User>> {
-        val list = service.finAllPageable(pageable)
+        val list = service.listUsers(pageable)
         return ResponseEntity.ok(list)
     }
 
