@@ -8,8 +8,11 @@ data class UserPreferences(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-    val userId: Long,
-    var theme: String,
-    var colorScheme:String,
-    var categories: String
+    var theme: String = "",
+    var colorScheme:String = "",
+    var categories: String = "",
+    var labels: String = "",
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    var user: User? = null
 )

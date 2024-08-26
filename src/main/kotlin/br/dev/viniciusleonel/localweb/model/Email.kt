@@ -1,13 +1,23 @@
 package br.dev.viniciusleonel.localweb.model
 
+import jakarta.persistence.*
 import java.time.LocalDateTime
 
+@Entity
+@Table(name = "emails")
 data class Email(
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
-    val from: String,
-    val to: String,
+    val emailFrom: String,
+    val emailTo: String,
     val subject: String,
     val body: String,
-    val sentAt: LocalDateTime = LocalDateTime.now()
+    val sentAt: LocalDateTime = LocalDateTime.now(),
+    var wasRead: Boolean = false,
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    var user: User? = null
 )
 

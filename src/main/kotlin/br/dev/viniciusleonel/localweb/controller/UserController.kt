@@ -1,7 +1,9 @@
 package br.dev.viniciusleonel.localweb.controller
 
-import br.dev.viniciusleonel.localweb.model.UserPreferences
-import br.dev.viniciusleonel.localweb.service.UserPreferencesService
+import br.dev.viniciusleonel.localweb.dto.UserDTO
+import br.dev.viniciusleonel.localweb.model.User
+import br.dev.viniciusleonel.localweb.service.UserService
+import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -10,16 +12,16 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/preferences")
-class UserPreferencesController(private val service: UserPreferencesService) {
+class UserController(private val service: UserService) {
 
     @PostMapping
-    fun insertPreferences(@RequestBody userPreferences: UserPreferences): ResponseEntity<UserPreferences> {
-        service.insertUserPreferences(userPreferences)
-        return ResponseEntity.ok(userPreferences)
+    fun insertPreferences(@RequestBody @Valid userDTO: UserDTO): ResponseEntity<UserDTO> {
+        service.insertUserPreferences(userDTO)
+        return ResponseEntity.ok(userDTO)
     }
 
     @GetMapping("/{userId}")
-    fun getPreferences(@PathVariable userId: Long): ResponseEntity<UserPreferences> {
+    fun getPreferences(@PathVariable userId: Long): ResponseEntity<User> {
         val preferences = service.getUserPreferences(userId)
         return ResponseEntity.ok(preferences)
     }
@@ -31,7 +33,7 @@ class UserPreferencesController(private val service: UserPreferencesService) {
 //    }
 
     @GetMapping
-    fun getAll(@PageableDefault(size = 10, sort = ["id"])pageable: Pageable ): ResponseEntity<Page<UserPreferences>> {
+    fun getAll(@PageableDefault(size = 10, sort = ["id"])pageable: Pageable ): ResponseEntity<Page<User>> {
         val list = service.finAllPageable(pageable)
         return ResponseEntity.ok(list)
     }
