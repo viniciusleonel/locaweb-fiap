@@ -1,9 +1,6 @@
 package br.dev.viniciusleonel.localweb.utils
 
-import br.dev.viniciusleonel.localweb.dto.UserDTO
-import br.dev.viniciusleonel.localweb.dto.UserPreferencesDTO
-import br.dev.viniciusleonel.localweb.dto.UserUpdateDTO
-import br.dev.viniciusleonel.localweb.dto.UserUpdatePreferencesDTO
+import br.dev.viniciusleonel.localweb.dto.*
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.model.UserPreferences
 
@@ -40,4 +37,15 @@ fun UserPreferences.updateFromDTO(updateDTO: UserUpdatePreferencesDTO) {
     updateDTO.colorScheme?.takeIf { it.isNotBlank() }?.let { this.colorScheme = it }
     updateDTO.categories?.takeIf { it.isNotBlank() }?.let { this.categories = it }
     updateDTO.labels?.takeIf { it.isNotBlank() }?.let { this.labels = it }
+}
+
+fun UserPreferences.toResponseDTO(): UserPreferencesResponseDTO {
+    return UserPreferencesResponseDTO(
+        id = this.id,
+        theme = this.theme,
+        colorScheme = this.colorScheme,
+        categories = this.categories,
+        labels = this.labels,
+        userId = this.user?.id
+    )
 }

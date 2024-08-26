@@ -40,4 +40,8 @@ class UserPreferencesService(private val userPreferencesRepository: UserPreferen
             .orElseThrow { EntityNotFoundException("Preferences not found with id: $id") }
         userPreferencesRepository.delete(preferences)
     }
+
+    fun getPreferencesById(id: Long): UserPreferences {
+        return userPreferencesRepository.findById(id).orElseThrow { EntityNotFoundException("Preferences not found with id: $id")}
+    }
 }

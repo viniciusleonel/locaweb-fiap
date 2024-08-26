@@ -2,11 +2,12 @@ package br.dev.viniciusleonel.localweb.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class UserPreferencesDTO(
+data class UserPreferencesResponseDTO(
+    val id: Long,
     val theme: String,
-    @JsonProperty("color_scheme") val colorScheme: String,
+    @JsonProperty("color_scheme")
+    val colorScheme: String,
     val categories: String,
     val labels: String,
-    @JsonProperty("user_id")
-    val userId: Long
+    val userId: Long?
 )
