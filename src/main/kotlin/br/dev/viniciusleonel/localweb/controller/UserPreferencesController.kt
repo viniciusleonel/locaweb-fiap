@@ -1,6 +1,7 @@
 package br.dev.viniciusleonel.localweb.controller
 
 import br.dev.viniciusleonel.localweb.dto.UserPreferencesDTO
+import br.dev.viniciusleonel.localweb.dto.UserUpdatePreferencesDTO
 import br.dev.viniciusleonel.localweb.model.UserPreferences
 import br.dev.viniciusleonel.localweb.service.UserPreferencesService
 import org.springframework.http.ResponseEntity
@@ -15,6 +16,12 @@ class UserPreferencesController(private val service: UserPreferencesService) {
     fun savePreferences(@RequestBody preferencesDTO: UserPreferencesDTO): ResponseEntity<UserPreferences> {
         val savedPreferences = service.savePreferences(preferencesDTO)
         return ResponseEntity.ok(savedPreferences)
+    }
+
+    @PutMapping("/{id}")
+    fun updatePreferences(@PathVariable id: Long, @RequestBody updateDTO: UserUpdatePreferencesDTO): ResponseEntity<UserPreferences> {
+        val updatedPreferences = service.updatePreferences(id, updateDTO)
+        return ResponseEntity.ok(updatedPreferences)
     }
 
     @DeleteMapping("/{preferencesId}")
