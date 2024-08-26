@@ -9,16 +9,14 @@ class User (
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-
     var email: String = "",
     var username: String = "",
     var password: String = "",
 
-
 ) {
     @OneToMany(mappedBy = "user")
     @JsonProperty("user_preferences")
-    lateinit var userPreferences: MutableList<UserPreferences>
+    var userPreferences: MutableList<UserPreferences> = mutableListOf()
 
     @OneToMany(mappedBy = "user")
     var receivedEmails: MutableList<Email> = mutableListOf()

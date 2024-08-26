@@ -1,6 +1,8 @@
 package br.dev.viniciusleonel.localweb.service
 
 import br.dev.viniciusleonel.localweb.dto.UserDTO
+import br.dev.viniciusleonel.localweb.dto.UserUpdateDTO
+import br.dev.viniciusleonel.localweb.infra.exception.NotFoundException
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.repository.UserRepository
 import br.dev.viniciusleonel.localweb.utils.toModel
@@ -19,12 +21,8 @@ class UserService(private val repository: UserRepository) {
 
     @Transactional
     fun insertUserPreferences(userDTO: UserDTO) {
-        var user = userDTO.toModel()
+        val user = userDTO.toModel()
         repository.save(user)
-    }
-
-    fun findAll(): MutableList<User> {
-        return repository.findAll()
     }
 
     fun finAllPageable(pageable: Pageable): Page<User> {
@@ -32,14 +30,26 @@ class UserService(private val repository: UserRepository) {
         return page.toUserPreferencesModel()
     }
 
-//    fun updateUserPreferences(userId: Long, preferences: UserPreferences): UserPreferences {
-//        val existingPreferences = getUserPreferences(userId)
-//        existingPreferences.theme = preferences.theme
-//        existingPreferences.colorScheme = preferences.colorScheme
-//        existingPreferences.categories = preferences.categories
-//        return repository.save(existingPreferences)
-//    }
+    @Transactional
+    fun updateUser(id: Long, updateUserDTO: UserUpdateDTO): User {
+        // Encontre o usuário existente
+        val user = repository.findById(id)
+            .orElseThrow { NotFoundException("User not found with id: $id") }
 
+        // Atualize os campos conforme fornecido no DTO
+        updateUserDTO.username?.let { user.username = it }
+        updateUserDTO.email?.let { user.email = it }
+        updateUserDTO.password?.let { user.password = it }
 
+        // Salve as alterações no mesmo objeto
+        return repository.save(user)
+    }
+
+    @Transactional
+    fun deleteUser(id: Long) {
+        val user = repository.findById(id)
+        .orElseThrow { NotFoundException("User not found with id: $id") }
+        repository.delete(user)
+    }
 
 }

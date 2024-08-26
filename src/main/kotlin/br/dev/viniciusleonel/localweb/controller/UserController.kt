@@ -1,6 +1,7 @@
 package br.dev.viniciusleonel.localweb.controller
 
 import br.dev.viniciusleonel.localweb.dto.UserDTO
+import br.dev.viniciusleonel.localweb.dto.UserUpdateDTO
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.service.UserService
 import jakarta.validation.Valid
@@ -11,26 +12,32 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/preferences")
+@RequestMapping("/api/user")
 class UserController(private val service: UserService) {
 
     @PostMapping
-    fun insertPreferences(@RequestBody @Valid userDTO: UserDTO): ResponseEntity<UserDTO> {
+    fun insertUser(@RequestBody @Valid userDTO: UserDTO): ResponseEntity<UserDTO> {
         service.insertUserPreferences(userDTO)
         return ResponseEntity.ok(userDTO)
     }
 
+    @PutMapping("/{userId}")
+    fun updateUser(@PathVariable userId: Long, @RequestBody @Valid userDTO: UserUpdateDTO): ResponseEntity<User> {
+        val updateUser = service.updateUser(userId, userDTO)
+        return ResponseEntity.ok(updateUser)
+    }
+
     @GetMapping("/{userId}")
-    fun getPreferences(@PathVariable userId: Long): ResponseEntity<User> {
+    fun getUser(@PathVariable userId: Long): ResponseEntity<User> {
         val preferences = service.getUserPreferences(userId)
         return ResponseEntity.ok(preferences)
     }
 
-//    @GetMapping
-//    fun getAll(): ResponseEntity<MutableList<UserPreferences>> {
-//        val list = service.findAll()
-//        return ResponseEntity.ok(list)
-//    }
+    @DeleteMapping("/{userId}")
+    fun deleteUser(@PathVariable userId: Long): ResponseEntity<Void> {
+        service.deleteUser(userId)
+        return ResponseEntity.ok().build()
+    }
 
     @GetMapping
     fun getAll(@PageableDefault(size = 10, sort = ["id"])pageable: Pageable ): ResponseEntity<Page<User>> {
@@ -38,9 +45,5 @@ class UserController(private val service: UserService) {
         return ResponseEntity.ok(list)
     }
 
-//    @PutMapping("/{userId}")
-//    fun updatePreferences(@PathVariable userId: Long, @RequestBody preferences: UserPreferences): ResponseEntity<UserPreferences> {
-//        val updatedPreferences = service.updateUserPreferences(userId, preferences)
-//        return ResponseEntity.ok(updatedPreferences)
-//    }
+
 }
