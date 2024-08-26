@@ -4,10 +4,7 @@ import br.dev.viniciusleonel.localweb.dto.UserPreferencesDTO
 import br.dev.viniciusleonel.localweb.model.UserPreferences
 import br.dev.viniciusleonel.localweb.service.UserPreferencesService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.prefs.Preferences
 
 @RestController
@@ -20,4 +17,9 @@ class UserPreferencesController(private val service: UserPreferencesService) {
         return ResponseEntity.ok(savedPreferences)
     }
 
+    @DeleteMapping("/{preferencesId}")
+    fun deletePreferences(@PathVariable preferencesId: Long): ResponseEntity<Void> {
+        service.deletePreferences(preferencesId)
+        return ResponseEntity.ok().build()
+    }
 }

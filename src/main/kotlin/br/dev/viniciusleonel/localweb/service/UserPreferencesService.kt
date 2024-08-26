@@ -5,6 +5,7 @@ import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.model.UserPreferences
 import br.dev.viniciusleonel.localweb.repository.UserPreferencesRepository
 import br.dev.viniciusleonel.localweb.repository.UserRepository
+import br.dev.viniciusleonel.localweb.utils.toUserPreferences
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,14 +18,15 @@ class UserPreferencesService(private val userPreferencesRepository: UserPreferen
         val user = userRepository.findById(userPreferencesDTO.userId)
             .orElseThrow { EntityNotFoundException("User not found with id: ${userPreferencesDTO.userId}") }
 
-        val userPreferences = UserPreferences(
-            theme = userPreferencesDTO.theme,
-            colorScheme = userPreferencesDTO.colorScheme,
-            categories = userPreferencesDTO.categories,
-            labels = userPreferencesDTO.labels,
-            user = user
-        )
+        val userPreferences = userPreferencesDTO.toUserPreferences(user)
 
         return userPreferencesRepository.save(userPreferences)
+    }
+
+    @Transactional
+    fun deletePreferences(id: Long) {
+        val preferences = userPreferencesRepository.findById(id)
+            .orElseThrow { EntityNotFoundException("Preferences not found with id: $id") }
+        userPreferencesRepository.delete(preferences)
     }
 }
