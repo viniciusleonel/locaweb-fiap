@@ -2,8 +2,10 @@ package br.dev.viniciusleonel.localweb.service
 
 import br.dev.viniciusleonel.localweb.dto.UserDTO
 import br.dev.viniciusleonel.localweb.dto.UserUpdateDTO
+import br.dev.viniciusleonel.localweb.infra.security.EncodeService
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.repository.UserRepository
+import br.dev.viniciusleonel.localweb.utils.exists
 import br.dev.viniciusleonel.localweb.utils.toModel
 import br.dev.viniciusleonel.localweb.utils.toUserPreferencesModel
 import br.dev.viniciusleonel.localweb.utils.updateFromDTO
@@ -14,15 +16,18 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class UserService(private val repository: UserRepository) {
+class UserService(private val repository: UserRepository, private val passwordService: EncodeService) {
     fun getUserById(id: Long): User {
         return repository.findById(id).orElseThrow { EntityNotFoundException("User not found with id: $id") }
     }
 
     @Transactional
-    fun insertUser(userDTO: UserDTO) {
-        val user = userDTO.toModel()
-        repository.save(user)
+    fun insertUser(userDTO: UserDTO): User {
+
+        userDTO.exists(repository, userDTO)
+        val user = userDTO.toModel(passwordService)
+        return repository.save(user)
+
     }
 
     fun listUsers(pageable: Pageable): Page<User> {
@@ -37,7 +42,7 @@ class UserService(private val repository: UserRepository) {
             .orElseThrow { EntityNotFoundException("User not found with id: $id") }
 
         // Atualize os campos conforme fornecido no DTO, com validação
-        user.updateFromDTO(updateUserDTO)
+        user.updateFromDTO(updateUserDTO, passwordService)
 
         // Salve as alterações no mesmo objeto
         return repository.save(user)

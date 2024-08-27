@@ -2,6 +2,7 @@ package br.dev.viniciusleonel.localweb.infra.exception
 
 import br.dev.viniciusleonel.localweb.dto.ErrorDTO
 import jakarta.persistence.EntityNotFoundException
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
@@ -26,9 +27,17 @@ class ErrorHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException::class)
-    fun tratarErro404(ex: EntityNotFoundException): ResponseEntity<*> {
+    fun handleErrorEntityNotFound(ex: EntityNotFoundException): ResponseEntity<*> {
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
             .body<Any>(ErrorDTO(ex.message))
     }
+
+    @ExceptionHandler(DataIntegrityViolationException::class)
+    fun handleErrorDataIntegrityViolation(ex: DataIntegrityViolationException): ResponseEntity<*> {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body<Any>(ErrorDTO(ex.message))
+    }
+
 }

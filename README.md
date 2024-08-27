@@ -37,11 +37,24 @@ URL Base: `http://localhost:8080/api`.
 {
   "email": "teste@gmail.com",
   "username": "teste",
-  "password": "123"
+  "password": "123456"
 }
 ```
 
-- Validações:
+- Sucesso ao cadastrar (Retorna User)
+```json
+{
+  "id": 1,
+  "email": "teste@gmail.com",
+  "username": "teste",
+  "password": "$2a$10$VO4VMk9JtrnJvvdLq3odnuZDugDdGuYUp3h9VmfKlc.mODYGoK.Hi",
+  "receivedEmails": [],
+  "sentEmails": [],
+  "user_preferences": []
+}
+```
+
+- Validações (Possíveis erros):
 ```json
 {
   "email": "Email is mandatory",
@@ -96,6 +109,28 @@ URL Base: `http://localhost:8080/api`.
 - Será deletado um único usuário.
 
 Ao adicionar uma prefência ela será atrelada ao usuário automaticamente cujo id foi informado.
+
+
+- Retorno de um User com Preferências adicionadas a ele.
+```json
+{
+  "id": 1,
+  "email": "teste@gmail.com",
+  "username": "teste",
+  "password": "$2a$10$VO4VMk9JtrnJvvdLq3odnuZDugDdGuYUp3h9VmfKlc.mODYGoK.Hi",
+  "receivedEmails": [],
+  "sentEmails": [],
+  "user_preferences": [
+    {
+      "id": 1,
+      "theme": "dark",
+      "color_scheme": "dark-purple",
+      "categories": "stared",
+      "labels": "purple"
+    }
+  ]
+}
+```
 
 ## Tecnologias Utilizadas
 

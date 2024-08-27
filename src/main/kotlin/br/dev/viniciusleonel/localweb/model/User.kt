@@ -10,8 +10,13 @@ class User (
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
+
+    @Column(unique = true)
     var email: String = "",
+
+    @Column(unique = true)
     var username: String = "",
+
     var password: String = "",
 
 ) {

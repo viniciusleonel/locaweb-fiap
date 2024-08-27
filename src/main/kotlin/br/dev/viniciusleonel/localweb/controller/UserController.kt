@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*
 class UserController(private val service: UserService) {
 
     @PostMapping
-    fun insertUser(@RequestBody @Valid userDTO: UserDTO): ResponseEntity<UserDTO> {
-        service.insertUser(userDTO)
-        return ResponseEntity.ok(userDTO)
+    fun insertUser(@RequestBody @Valid userDTO: UserDTO): ResponseEntity<User> {
+        val user = service.insertUser(userDTO)
+        return ResponseEntity.ok(user)
     }
 
     @PutMapping("/{userId}")
