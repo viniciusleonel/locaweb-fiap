@@ -1,0 +1,38 @@
+# Cadastrar preferências
+POST http://localhost:8080/api/preferences
+Content-Type: application/json
+
+{
+  "theme": "dark",
+  "color_scheme": "dark-purple",
+  "categories": "stared",
+  "labels": "purple",
+  "user_id": 3
+}
+
+###
+
+
+# Buscar preferência ( Inserir o ID correto )
+GET http://localhost:8080/api/preferences/9
+
+
+###
+
+# Atualizar preferência ( Inserir o ID correto )
+PUT http://localhost:8080/api/preferences/9
+Content-Type: application/json
+
+{
+  "theme": "light",
+  "color_scheme": "light-grey",
+  "categories": "stared",
+  "labels": "grey",
+  "user_id": 3
+}
+
+
+###
+
+# Deletar preferência ( Inserir o ID correto )
+DELETE http://localhost:8080/api/preferences/9
