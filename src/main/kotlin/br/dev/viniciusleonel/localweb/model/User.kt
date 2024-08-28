@@ -21,6 +21,8 @@ class User (
 
     var password: String = "",
 
+    var isLoggedIn: Boolean = false,
+
 ) {
     @OneToMany(mappedBy = "user")
     @JsonProperty("user_preferences")
@@ -34,4 +36,12 @@ class User (
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     var sentEmails: MutableList<Email> = mutableListOf()
+
+    fun logIn() {
+        this.isLoggedIn = true
+    }
+
+    fun logOut() {
+        this.isLoggedIn = false
+    }
 }

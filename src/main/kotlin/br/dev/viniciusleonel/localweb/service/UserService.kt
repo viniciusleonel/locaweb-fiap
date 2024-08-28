@@ -1,7 +1,7 @@
 package br.dev.viniciusleonel.localweb.service
 
-import br.dev.viniciusleonel.localweb.dto.UserDTO
-import br.dev.viniciusleonel.localweb.dto.UserUpdateDTO
+import br.dev.viniciusleonel.localweb.dto.*
+import br.dev.viniciusleonel.localweb.infra.exception.CustomException
 import br.dev.viniciusleonel.localweb.infra.security.EncodeService
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.repository.UserRepository
@@ -22,12 +22,33 @@ class UserService(private val repository: UserRepository, private val passwordSe
     }
 
     @Transactional
-    fun insertUser(userDTO: UserDTO): User {
+    fun login(loginDTO: UserLogInDTO): User {
+        val user = repository.findByUsername(loginDTO.username)
+            ?: throw EntityNotFoundException("User not found with username: ${loginDTO.username}")
+        if (!passwordService.matches(loginDTO.password, user.password)) {
+            throw CustomException("Invalid password")
+        }
+        user.logIn()
+        return user
+    }
 
+    @Transactional
+    fun logout(logoutDTO: UserLogOutDTO): MessageDTO {
+        val user = repository.findByUsername(logoutDTO.username)
+            ?: throw EntityNotFoundException("User not found with username: ${logoutDTO.username}")
+        if (user.isLoggedIn) {
+            user.logOut()
+            return MessageDTO("User ${logoutDTO.username} is logged out!")
+        } else {
+            throw CustomException("User ${logoutDTO.username} is not logged in")
+        }
+    }
+
+    @Transactional
+    fun insertUser(userDTO: UserDTO): User {
         userDTO.exists(repository, userDTO)
         val user = userDTO.toModel(passwordService)
         return repository.save(user)
-
     }
 
     fun listUsers(pageable: Pageable): Page<User> {

@@ -1,7 +1,6 @@
 package br.dev.viniciusleonel.localweb.controller
 
-import br.dev.viniciusleonel.localweb.dto.UserDTO
-import br.dev.viniciusleonel.localweb.dto.UserUpdateDTO
+import br.dev.viniciusleonel.localweb.dto.*
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.service.UserService
 import jakarta.validation.Valid
@@ -14,6 +13,18 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/user")
 class UserController(private val service: UserService) {
+
+    @PostMapping("/login")
+    fun login(@Valid @RequestBody loginDTO: UserLogInDTO): ResponseEntity<User> {
+        val user = service.login(loginDTO)
+        return ResponseEntity.ok(user)
+    }
+
+    @PostMapping("/logout")
+    fun logout(@Valid @RequestBody logoutDTO : UserLogOutDTO): ResponseEntity<MessageDTO> {
+        val response = service.logout(logoutDTO)
+        return ResponseEntity.ok(response)
+    }
 
     @PostMapping
     fun insertUser(@RequestBody @Valid userDTO: UserDTO): ResponseEntity<User> {

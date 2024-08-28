@@ -49,6 +49,7 @@ URL Base: `http://localhost:8080/api`.
   "email": "teste@gmail.com",
   "username": "teste",
   "password": "$2a$10$VO4VMk9JtrnJvvdLq3odnuZDugDdGuYUp3h9VmfKlc.mODYGoK.Hi",
+  "isLoggedIn": false,
   "receivedEmails": [],
   "sentEmails": [],
   "user_preferences": []
@@ -78,6 +79,43 @@ URL Base: `http://localhost:8080/api`.
 #### Deletar usuário: DELETE http://localhost:8080/api/user/{id}
 - Será deletado um único usuário.
 
+#### Login: POST http://localhost:8080/api/user/login
+- Será verificado se o `username` existe e se `password` é a mesma que no banco de dados, se sim
+  `isLoggedIn` será alterado para `true` e os dados do usuário será retornado.
+```json
+{
+  "username": "teste",
+  "password": "123456"
+}
+```
+
+- Caso contrário, se o `username` não existir ou se a `password` estiver errada:
+```json
+{ "error": "User not found with username: tes" }
+```
+```json
+{ "error": "Invalid password" }
+```
+
+
+#### Login: POST http://localhost:8080/api/user/logout
+- Será verificado se o `username` existe no banco de dados, se sim
+  `isLoggedIn` será alterado para `false`.
+```json
+{ "username": "teste" }
+```
+- Retorno:
+```json
+{ "message": "User teste is logged out!" } 
+```
+
+- Se o usuário não estiver logado ou se não existir:
+```json
+{ "error": "User teste is not logged in" }
+```
+```json
+{ "error": "User not found with username: tes" }
+```
 
 ### Preferences
 
@@ -121,6 +159,7 @@ Ao adicionar uma prefência ela será atrelada ao usuário automaticamente cujo 
   "email": "teste@gmail.com",
   "username": "teste",
   "password": "$2a$10$VO4VMk9JtrnJvvdLq3odnuZDugDdGuYUp3h9VmfKlc.mODYGoK.Hi",
+  "isLoggedIn": true,
   "receivedEmails": [],
   "sentEmails": [],
   "user_preferences": [

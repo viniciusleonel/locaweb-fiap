@@ -41,6 +41,13 @@ class ErrorHandler {
             .body<Any>(ErrorDTO(ex.message))
     }
 
+    @ExceptionHandler(CustomException::class)
+    fun handleErrorDataIntegrityViolation(ex: CustomException): ResponseEntity<*> {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body<Any>(ErrorDTO(ex.message))
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException::class)
     fun handleErrorDataIntegrityViolation(ex: HttpMessageNotReadableException): ResponseEntity<*> {
         val error = "Formato Json Inválido."
