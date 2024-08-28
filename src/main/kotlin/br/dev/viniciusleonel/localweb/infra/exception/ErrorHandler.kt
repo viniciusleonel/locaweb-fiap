@@ -5,6 +5,7 @@ import jakarta.persistence.EntityNotFoundException
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.FieldError
 import org.springframework.validation.ObjectError
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -39,5 +40,15 @@ class ErrorHandler {
             .status(HttpStatus.BAD_REQUEST)
             .body<Any>(ErrorDTO(ex.message))
     }
+
+    @ExceptionHandler(HttpMessageNotReadableException::class)
+    fun handleErrorDataIntegrityViolation(ex: HttpMessageNotReadableException): ResponseEntity<*> {
+        val error = "Formato Json Inválido."
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body<Any>(ErrorDTO(error))
+    }
+
+
 
 }

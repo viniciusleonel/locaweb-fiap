@@ -45,6 +45,7 @@ URL Base: `http://localhost:8080/api`.
 ```json
 {
   "id": 1,
+  "name": "name",
   "email": "teste@gmail.com",
   "username": "teste",
   "password": "$2a$10$VO4VMk9JtrnJvvdLq3odnuZDugDdGuYUp3h9VmfKlc.mODYGoK.Hi",
@@ -57,6 +58,7 @@ URL Base: `http://localhost:8080/api`.
 - Validações (Possíveis erros):
 ```json
 {
+  "name": "Name is mandatory",
   "email": "Email is mandatory",
   "email": "Invalid email format",
   "username": "Username is mandatory",
@@ -115,6 +117,7 @@ Ao adicionar uma prefência ela será atrelada ao usuário automaticamente cujo 
 ```json
 {
   "id": 1,
+  "name": "Name",
   "email": "teste@gmail.com",
   "username": "teste",
   "password": "$2a$10$VO4VMk9JtrnJvvdLq3odnuZDugDdGuYUp3h9VmfKlc.mODYGoK.Hi",
