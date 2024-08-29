@@ -1,6 +1,10 @@
 package br.dev.viniciusleonel.localweb.controller
 
 import br.dev.viniciusleonel.localweb.dto.*
+import br.dev.viniciusleonel.localweb.dto.user.UserDTO
+import br.dev.viniciusleonel.localweb.dto.user.UserLogInDTO
+import br.dev.viniciusleonel.localweb.dto.user.UserLogOutDTO
+import br.dev.viniciusleonel.localweb.dto.user.UserUpdateDTO
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.service.UserService
 import jakarta.validation.Valid
@@ -55,6 +59,4 @@ class UserController(private val service: UserService) {
         val list = service.listUsers(pageable)
         return ResponseEntity.ok(list)
     }
-
-
 }

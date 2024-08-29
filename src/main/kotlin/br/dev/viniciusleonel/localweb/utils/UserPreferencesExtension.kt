@@ -1,10 +1,11 @@
 package br.dev.viniciusleonel.localweb.utils
 
-import br.dev.viniciusleonel.localweb.dto.*
+import br.dev.viniciusleonel.localweb.dto.preferences.UserPreferencesDTO
+import br.dev.viniciusleonel.localweb.dto.preferences.UserPreferencesResponseDTO
+import br.dev.viniciusleonel.localweb.dto.preferences.UserUpdatePreferencesDTO
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.model.UserPreferences
 
-// Função de extensão para criar um UserPreferences a partir do DTO
 fun UserPreferencesDTO.toUserPreferences(user: User): UserPreferences {
     return UserPreferences(
         theme = this.theme ?: "",
@@ -15,7 +16,6 @@ fun UserPreferencesDTO.toUserPreferences(user: User): UserPreferences {
     )
 }
 
-// Função de extensão para atualizar um UserPreferences com base em UserPreferencesDTO
 fun UserPreferences.updateFromDTO(updateDTO: UserUpdatePreferencesDTO) {
     updateDTO.theme?.takeIf { it.isNotBlank() }?.let { this.theme = it }
     updateDTO.colorScheme?.takeIf { it.isNotBlank() }?.let { this.colorScheme = it }

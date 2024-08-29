@@ -1,8 +1,7 @@
 package br.dev.viniciusleonel.localweb.service
 
-import br.dev.viniciusleonel.localweb.dto.UserPreferencesDTO
-import br.dev.viniciusleonel.localweb.dto.UserUpdatePreferencesDTO
-import br.dev.viniciusleonel.localweb.model.User
+import br.dev.viniciusleonel.localweb.dto.preferences.UserPreferencesDTO
+import br.dev.viniciusleonel.localweb.dto.preferences.UserUpdatePreferencesDTO
 import br.dev.viniciusleonel.localweb.model.UserPreferences
 import br.dev.viniciusleonel.localweb.repository.UserPreferencesRepository
 import br.dev.viniciusleonel.localweb.repository.UserRepository
@@ -18,7 +17,7 @@ class UserPreferencesService(private val userPreferencesRepository: UserPreferen
     @Transactional
     fun savePreferences(userPreferencesDTO: UserPreferencesDTO): UserPreferences {
         val user = userRepository.findById(userPreferencesDTO.userId)
-            .orElseThrow { EntityNotFoundException("User not found with id: ${userPreferencesDTO.userId}") }
+            .orElseThrow { EntityNotFoundException("User not found with id: '${userPreferencesDTO.userId}'") }
 
         val userPreferences = userPreferencesDTO.toUserPreferences(user)
 
@@ -28,7 +27,7 @@ class UserPreferencesService(private val userPreferencesRepository: UserPreferen
     @Transactional
     fun updatePreferences(id: Long, updateDTO: UserUpdatePreferencesDTO): UserPreferences {
         val preferences = userPreferencesRepository.findById(id)
-            .orElseThrow { EntityNotFoundException("Preferences not found with id: $id") }
+            .orElseThrow { EntityNotFoundException("Preferences not found with id: '$id'") }
 
         preferences.updateFromDTO(updateDTO)
         return userPreferencesRepository.save(preferences)
@@ -37,11 +36,11 @@ class UserPreferencesService(private val userPreferencesRepository: UserPreferen
     @Transactional
     fun deletePreferences(id: Long) {
         val preferences = userPreferencesRepository.findById(id)
-            .orElseThrow { EntityNotFoundException("Preferences not found with id: $id") }
+            .orElseThrow { EntityNotFoundException("Preferences not found with id: '$id'") }
         userPreferencesRepository.delete(preferences)
     }
 
     fun getPreferencesById(id: Long): UserPreferences {
-        return userPreferencesRepository.findById(id).orElseThrow { EntityNotFoundException("Preferences not found with id: $id")}
+        return userPreferencesRepository.findById(id).orElseThrow { EntityNotFoundException("Preferences not found with id: '$id'")}
     }
 }

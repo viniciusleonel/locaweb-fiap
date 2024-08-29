@@ -1,7 +1,6 @@
 package br.dev.viniciusleonel.localweb.model
 
 import com.fasterxml.jackson.annotation.JsonManagedReference
-import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.persistence.*
 
 @Entity
@@ -25,17 +24,16 @@ class User (
 
 ) {
     @OneToMany(mappedBy = "user")
-    @JsonProperty("user_preferences")
     @JsonManagedReference
     var userPreferences: MutableList<UserPreferences> = mutableListOf()
 
-    @OneToMany(mappedBy = "user")
-    @JsonManagedReference
-    var receivedEmails: MutableList<Email> = mutableListOf()
-
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "sentByUser")
     @JsonManagedReference
     var sentEmails: MutableList<Email> = mutableListOf()
+
+    @OneToMany(mappedBy = "receivedByUser")
+    @JsonManagedReference
+    var receivedEmails: MutableList<Email> = mutableListOf()
 
     fun logIn() {
         this.isLoggedIn = true

@@ -9,17 +9,23 @@ import java.time.LocalDateTime
 data class Email(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
-    val emailFrom: String,
-    val emailTo: String,
-    val subject: String,
-    val body: String,
-    val sentAt: LocalDateTime = LocalDateTime.now(),
-    var wasRead: Boolean = false,
+    val id: Long = 0,
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "sent_by_user_id")
     @JsonBackReference
-    var user: User? = null
-)
+    val sentByUser: User,
+
+    @ManyToOne
+    @JoinColumn(name = "received_by_user_id")
+    @JsonBackReference
+    val receivedByUser: User? = null,
+
+    val subject: String,
+    val body: String,
+
+) {
+    val sentAt: LocalDateTime = LocalDateTime.now()
+    var wasRead: Boolean = false
+}
 

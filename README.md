@@ -52,18 +52,18 @@ URL Base: `http://localhost:8080/api`.
   "isLoggedIn": false,
   "receivedEmails": [],
   "sentEmails": [],
-  "user_preferences": []
+  "userPreferences": []
 }
 ```
 
 - Validações (Possíveis erros):
 ```json
 {
-  "name": "Name is mandatory",
-  "email": "Email is mandatory",
+  "name": "Name is required",
+  "email": "Email is required",
   "email": "Invalid email format",
-  "username": "Username is mandatory",
-  "password": "Password is mandatory"
+  "username": "Username is required",
+  "password": "Password is required"
 }
 ```
 
@@ -91,7 +91,7 @@ URL Base: `http://localhost:8080/api`.
 
 - Caso contrário, se o `username` não existir ou se a `password` estiver errada:
 ```json
-{ "error": "User not found with username: tes" }
+{ "error": "User not found with username: 'tes'" }
 ```
 ```json
 { "error": "Invalid password" }
@@ -106,15 +106,15 @@ URL Base: `http://localhost:8080/api`.
 ```
 - Retorno:
 ```json
-{ "message": "User teste is logged out!" } 
+{ "message": "User 'teste' is logged out!" } 
 ```
 
 - Se o usuário não estiver logado ou se não existir:
 ```json
-{ "error": "User teste is not logged in" }
+{ "error": "User 'teste' is not logged in" }
 ```
 ```json
-{ "error": "User not found with username: tes" }
+{ "error": "User not found with username: 'tes'" }
 ```
 
 ### Preferences
@@ -125,17 +125,17 @@ URL Base: `http://localhost:8080/api`.
 ```json
 {
   "theme": "dark",
-  "color_scheme": "dark-purple",
+  "colorScheme": "dark-purple",
   "categories": "stared",
   "labels": "purple",
-  "user_id": 3
+  "userId": 3
 }
 ```
 
 - Validações:
 ```json
 {
-  "user_id": "User ID is mandatory"
+  "userId": "User ID is required"
 }
 ```
 
@@ -162,17 +162,83 @@ Ao adicionar uma prefência ela será atrelada ao usuário automaticamente cujo 
   "isLoggedIn": true,
   "receivedEmails": [],
   "sentEmails": [],
-  "user_preferences": [
+  "userPreferences": [
     {
       "id": 1,
       "theme": "dark",
-      "color_scheme": "dark-purple",
+      "colorScheme": "dark-purple",
       "categories": "stared",
       "labels": "purple"
     }
   ]
 }
 ```
+
+### Emails
+
+#### Enviar Email: POST http://localhost:8080/api/email
+
+- Formato Json - Todos os campos são obrigatórios
+```json
+{
+  "sentByUser": "teste@gmail.com",
+  "receivedByUser": "vinicius@gmail.com",
+  "subject": "Email Teste",
+  "body": "Estou mandando um email teste"
+}
+```
+
+- Validações:
+```json
+{
+  "error": "User not found with id: 'tes@gmail.com'",
+  "subject": "Subject is required.",
+  "receivedByUser": "Recipient's email is required.",
+  "subject": "Subject is required.",
+  "body": "Email body is required."
+}
+```
+
+- Retorno
+```json
+{
+  "id": 11,
+  "subject": "Email Teste",
+  "body": "Estou mandando um email teste",
+  "sentAt": "2024-08-29T17:43:49.0523626",
+  "wasRead": false
+}
+```
+
+#### Buscar email: GET http://localhost:8080/api/email/{id}
+- Será retornado um único email com 'body'.
+
+```json
+{
+  "id": 1,
+  "sendByUser": "teste",
+  "receiveByUser": "vinicim",
+  "subject": "Email Teste",
+  "body": "Estou mandando um email teste",
+  "sendAt": "2024-08-29T18:09:39.66685",
+  "wasRead": false
+}
+```
+
+#### Listar emails: GET http://localhost:8080/api/email
+- Será retornada uma lista de emails com paginação sem campo 'body'.
+
+#### Deletar email: DELETE http://localhost:8080/api/email/{id}
+- Será deletado um único email.
+
+
+Ao enviar um e-mail, a API irá adicionar ao usuário remetente e destinatário nas 
+respectivas listas de e-mails enviados e recebidos. O usuário remetente será associado 
+como o responsável pelo envio do e-mail, enquanto o destinatário será a pessoa que 
+receberá o e-mail. Além disso, a API garantirá que o e-mail seja armazenado corretamente 
+no banco de dados com todos os detalhes pertinentes, como o assunto, o corpo do e-mail 
+e a data/hora de envio. A operação de envio também atualizará o status do e-mail, 
+marcando-o como não lido para o destinatário até que seja visualizado.
 
 ## Tecnologias Utilizadas
 

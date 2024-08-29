@@ -2,6 +2,5 @@ package br.dev.viniciusleonel.localweb.infra.exception
 
 
 class CustomException(
-    val errorMessage: String,
-    val details: String? = null
+    private val errorMessage: String
 ) : RuntimeException(errorMessage)

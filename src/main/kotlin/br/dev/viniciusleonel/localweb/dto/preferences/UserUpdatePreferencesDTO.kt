@@ -1,10 +1,7 @@
-package br.dev.viniciusleonel.localweb.dto
-
-import com.fasterxml.jackson.annotation.JsonProperty
+package br.dev.viniciusleonel.localweb.dto.preferences
 
 data class UserUpdatePreferencesDTO(
     val theme: String? = null,
-    @JsonProperty("color_scheme")
     val colorScheme: String? = null,
     val categories: String? = null,
     val labels: String? = null
