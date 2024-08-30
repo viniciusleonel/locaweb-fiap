@@ -1,6 +1,10 @@
 package br.dev.viniciusleonel.localweb.infra.exception
 
+import org.springframework.http.HttpStatus
+
 
 class CustomException(
-    private val errorMessage: String
-) : RuntimeException(errorMessage)
+    message: String,
+    val status: HttpStatus = HttpStatus.BAD_REQUEST
+) : RuntimeException(message)
+

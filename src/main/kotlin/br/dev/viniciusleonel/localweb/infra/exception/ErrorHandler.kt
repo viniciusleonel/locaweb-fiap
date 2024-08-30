@@ -36,17 +36,32 @@ class ErrorHandler {
 
     @ExceptionHandler(DataIntegrityViolationException::class)
     fun handleErrorDataIntegrityViolation(ex: DataIntegrityViolationException): ResponseEntity<*> {
+        val rootCause = ex.rootCause?.message
+
+        val errorMessage = when {
+            rootCause?.contains("Duplicate entry") == true -> {
+                val duplicatedField = when {
+                    rootCause.contains("UK6dotkott2kjsp8vw4d0m25fb7") -> "email"
+                    rootCause.contains("UKr43af9ap4edm43mmtq01oddj6") -> "username"
+                    else -> "unknown"
+                }
+                "Duplicate value found for $duplicatedField"
+            }
+            else -> "Data integrity violation occurred"
+        }
+
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
-            .body<Any>(ErrorDTO(ex.message))
+            .body<Any>(ErrorDTO(errorMessage))
     }
 
     @ExceptionHandler(CustomException::class)
-    fun handleErrorDataIntegrityViolation(ex: CustomException): ResponseEntity<*> {
+    fun handleCustomException(ex: CustomException): ResponseEntity<*> {
         return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
+            .status(ex.status)
             .body<Any>(ErrorDTO(ex.message))
     }
+
 
     @ExceptionHandler(HttpMessageNotReadableException::class)
     fun handleErrorDataIntegrityViolation(ex: HttpMessageNotReadableException): ResponseEntity<*> {

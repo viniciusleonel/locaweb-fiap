@@ -9,7 +9,6 @@ class User (
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-
     var name: String = "",
 
     @Column(unique = true)
@@ -19,8 +18,8 @@ class User (
     var username: String = "",
 
     var password: String = "",
-
     var isLoggedIn: Boolean = false,
+    var status: Boolean = true,
 
 ) {
     @OneToMany(mappedBy = "user")
@@ -41,5 +40,9 @@ class User (
 
     fun logOut() {
         this.isLoggedIn = false
+    }
+
+    fun deleteUser() {
+        this.status = false
     }
 }

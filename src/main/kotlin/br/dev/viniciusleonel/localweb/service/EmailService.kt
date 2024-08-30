@@ -1,5 +1,6 @@
 package br.dev.viniciusleonel.localweb.service
 
+import br.dev.viniciusleonel.localweb.dto.MessageDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDetailsDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDetailsWithBodyDTO
@@ -55,10 +56,11 @@ class EmailService(
     }
 
     @Transactional
-    fun deleteEmailById(id: Long) {
+    fun deleteEmailById(id: Long) : MessageDTO{
         val email = emailRepository.findById(id)
             .orElseThrow { EntityNotFoundException("Email not found with id: '$id'") }
         emailRepository.delete(email)
+        return MessageDTO("Email with id: '$id' was deleted")
     }
 
     fun getEmailById(id: Long): EmailDetailsWithBodyDTO {

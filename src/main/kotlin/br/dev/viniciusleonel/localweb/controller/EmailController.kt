@@ -1,5 +1,6 @@
 package br.dev.viniciusleonel.localweb.controller
 
+import br.dev.viniciusleonel.localweb.dto.MessageDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDetailsDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDetailsWithBodyDTO
@@ -36,9 +37,9 @@ class EmailController(private val emailService: EmailService) {
     }
 
     @DeleteMapping("/{emailId}")
-    fun deleteUser(@PathVariable emailId: Long): ResponseEntity<Void> {
-        emailService.deleteEmailById(emailId)
-        return ResponseEntity.ok().build()
+    fun deleteUser(@PathVariable emailId: Long): ResponseEntity<MessageDTO> {
+        val response = emailService.deleteEmailById(emailId)
+        return ResponseEntity.ok(response)
     }
 
 }

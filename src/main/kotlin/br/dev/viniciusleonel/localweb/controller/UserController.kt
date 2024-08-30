@@ -1,10 +1,7 @@
 package br.dev.viniciusleonel.localweb.controller
 
 import br.dev.viniciusleonel.localweb.dto.*
-import br.dev.viniciusleonel.localweb.dto.user.UserDTO
-import br.dev.viniciusleonel.localweb.dto.user.UserLogInDTO
-import br.dev.viniciusleonel.localweb.dto.user.UserLogOutDTO
-import br.dev.viniciusleonel.localweb.dto.user.UserUpdateDTO
+import br.dev.viniciusleonel.localweb.dto.user.*
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.service.UserService
 import jakarta.validation.Valid
@@ -19,7 +16,7 @@ import org.springframework.web.bind.annotation.*
 class UserController(private val service: UserService) {
 
     @PostMapping("/login")
-    fun login(@Valid @RequestBody loginDTO: UserLogInDTO): ResponseEntity<User> {
+    fun login(@Valid @RequestBody loginDTO: UserLogInDTO): ResponseEntity<UserDetailsDTO> {
         val user = service.login(loginDTO)
         return ResponseEntity.ok(user)
     }
@@ -49,14 +46,14 @@ class UserController(private val service: UserService) {
     }
 
     @DeleteMapping("/{userId}")
-    fun deleteUser(@PathVariable userId: Long): ResponseEntity<Void> {
-        service.deleteUser(userId)
-        return ResponseEntity.ok().build()
+    fun deleteUser(@PathVariable userId: Long): ResponseEntity<MessageDTO> {
+        val response = service.deleteUser(userId)
+        return ResponseEntity.ok(response)
     }
 
     @GetMapping
-    fun getAll(@PageableDefault(size = 10, sort = ["id"])pageable: Pageable ): ResponseEntity<Page<User>> {
-        val list = service.listUsers(pageable)
-        return ResponseEntity.ok(list)
+    fun listUsers(@PageableDefault(size = 10, sort = ["id"])pageable: Pageable ): ResponseEntity<Page<User>> {
+        val page = service.listUsers(pageable)
+        return ResponseEntity.ok(page)
     }
 }

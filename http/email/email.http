@@ -1,0 +1,29 @@
+
+
+# Enviar email
+POST http://localhost:8080/api/email
+Content-Type: application/json
+
+{
+  "sentByUser": "user1@gmail.com",
+  "receivedByUser": "user2@gmail.com",
+  "subject": "Email Teste",
+  "body": "Estou mandando um email teste"
+}
+
+###
+
+# Listar Emails ( Sem Body )
+GET http://localhost:8080/api/email
+
+###
+
+# Buscar Email ( Com Body )
+GET http://localhost:8080/api/email/1
+
+###
+
+# Deletar Email
+DELETE http://localhost:8080/api/email/1
+
+###

@@ -67,18 +67,6 @@ URL Base: `http://localhost:8080/api`.
 }
 ```
 
-#### Listar usuários: GET http://localhost:8080/api/user
-- Será retornada uma lista de usuários com paginação.
-
-#### Buscar usuário: GET http://localhost:8080/api/user/{id}
-- Será retornado um único usuário.
-
-#### Atualizar usuário: PUT http://localhost:8080/api/user/{id}
-- Será atualizado somente os campos que não estiverem vazios.
-
-#### Deletar usuário: DELETE http://localhost:8080/api/user/{id}
-- Será deletado um único usuário.
-
 #### Login: POST http://localhost:8080/api/user/login
 - Será verificado se o `username` existe e se `password` é a mesma que no banco de dados, se sim
   `isLoggedIn` será alterado para `true` e os dados do usuário será retornado.
@@ -97,8 +85,23 @@ URL Base: `http://localhost:8080/api`.
 { "error": "Invalid password" }
 ```
 
+#### Listar usuários: GET http://localhost:8080/api/user
+- Será retornada uma lista de usuários com paginação.
 
-#### Login: POST http://localhost:8080/api/user/logout
+#### Buscar usuário: GET http://localhost:8080/api/user/{id}
+- Necessário usuário estar logado!*
+- Será retornado um único usuário.
+
+#### Atualizar usuário: PUT http://localhost:8080/api/user/{id}
+- Necessário usuário estar logado!*
+- Será atualizado somente os campos que não estiverem vazios.
+
+#### Deletar usuário: DELETE http://localhost:8080/api/user/{id}
+- Necessário usuário estar logado!*
+- Será deletado um único usuário.
+
+#### Logout: POST http://localhost:8080/api/user/logout
+- Necessário usuário estar logado!*
 - Será verificado se o `username` existe no banco de dados, se sim
   `isLoggedIn` será alterado para `false`.
 ```json
@@ -117,7 +120,7 @@ URL Base: `http://localhost:8080/api`.
 { "error": "User not found with username: 'tes'" }
 ```
 
-### Preferences
+### Preferences - Necessário usuário estar logado!*
 
 #### Cadastrar preferências: POST http://localhost:8080/api/preferences
 
@@ -141,6 +144,9 @@ URL Base: `http://localhost:8080/api`.
 
 #### Buscar preferência: GET http://localhost:8080/api/preferences/{id}
 - Será retornado um único usuário.
+
+#### Listar preferências de um usuário: GET http://localhost:8080/api/preferences/user/{id}
+- Será retornada uma lista de preferências de um usuário com paginação.
 
 #### Atualizar preferência: PUT http://localhost:8080/api/preferences/{id}
 - Será atualizado somente os campos que não estiverem vazios.

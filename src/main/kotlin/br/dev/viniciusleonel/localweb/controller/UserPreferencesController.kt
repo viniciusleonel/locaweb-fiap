@@ -1,5 +1,6 @@
 package br.dev.viniciusleonel.localweb.controller
 
+import br.dev.viniciusleonel.localweb.dto.MessageDTO
 import br.dev.viniciusleonel.localweb.dto.preferences.UserPreferencesDTO
 import br.dev.viniciusleonel.localweb.dto.preferences.UserPreferencesResponseDTO
 import br.dev.viniciusleonel.localweb.dto.preferences.UserUpdatePreferencesDTO
@@ -7,6 +8,9 @@ import br.dev.viniciusleonel.localweb.model.UserPreferences
 import br.dev.viniciusleonel.localweb.service.UserPreferencesService
 import br.dev.viniciusleonel.localweb.utils.toResponseDTO
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -27,9 +31,9 @@ class UserPreferencesController(private val service: UserPreferencesService) {
     }
 
     @DeleteMapping("/{preferencesId}")
-    fun deletePreferences(@PathVariable preferencesId: Long): ResponseEntity<Void> {
-        service.deletePreferences(preferencesId)
-        return ResponseEntity.ok().build()
+    fun deletePreferences(@PathVariable preferencesId: Long): ResponseEntity<MessageDTO> {
+        val response = service.deletePreferences(preferencesId)
+        return ResponseEntity.ok(response)
     }
 
     @GetMapping("/{preferencesId}")
@@ -37,4 +41,12 @@ class UserPreferencesController(private val service: UserPreferencesService) {
         val preferences = service.getPreferencesById(preferencesId)
         return ResponseEntity.ok(preferences.toResponseDTO())
     }
+
+    @GetMapping("/user/{userId}")
+    fun listPreferences(@PathVariable userId: Long, @PageableDefault(size = 10, sort = ["id"])pageable: Pageable): ResponseEntity<Page<UserPreferences>> {
+        val page = service.listPreferences(userId, pageable)
+        return ResponseEntity.ok(page)
+    }
+
+
 }
