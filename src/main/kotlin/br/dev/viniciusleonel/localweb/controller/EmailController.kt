@@ -5,7 +5,6 @@ import br.dev.viniciusleonel.localweb.dto.email.EmailDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDetailsDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDetailsWithBodyDTO
 import br.dev.viniciusleonel.localweb.model.Email
-import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.service.EmailService
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page

@@ -2,12 +2,14 @@ package br.dev.viniciusleonel.localweb.utils
 
 import br.dev.viniciusleonel.localweb.dto.user.UserDTO
 import br.dev.viniciusleonel.localweb.dto.user.UserDetailsDTO
+import br.dev.viniciusleonel.localweb.dto.user.UserListDTO
 import br.dev.viniciusleonel.localweb.dto.user.UserUpdateDTO
 import br.dev.viniciusleonel.localweb.infra.exception.CustomException
 import br.dev.viniciusleonel.localweb.infra.security.EncodeService
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.repository.UserRepository
 import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 
 fun UserDTO.exists(repository: UserRepository, userDTO: UserDTO) : UserDTO {
@@ -58,4 +60,22 @@ fun User.toUserDetailsDTO(user: User): UserDetailsDTO {
         email = this.email,
         isLoggedIn = this.isLoggedIn,
     )
+}
+
+fun User.toUserListDTO(): UserListDTO {
+    return UserListDTO(
+        id = this.id,
+        name = this.name,
+        username = this.username,
+        email = this.email,
+        isLoggedIn = this.isLoggedIn,
+        status = this.status,
+        userPreferences = this.userPreferences,
+        sentEmails = this.getSentEmailsDTO(),
+        receivedEmails = this.getReceivedEmailsDTO()
+    )
+}
+
+fun Page<User>.toUserListDTOPage(): Page<UserListDTO> {
+    return this.map { it.toUserListDTO() }
 }

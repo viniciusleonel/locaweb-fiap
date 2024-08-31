@@ -1,8 +1,6 @@
 package br.dev.viniciusleonel.localweb.utils
 
-import br.dev.viniciusleonel.localweb.dto.email.EmailDTO
-import br.dev.viniciusleonel.localweb.dto.email.EmailDetailsDTO
-import br.dev.viniciusleonel.localweb.dto.email.EmailDetailsWithBodyDTO
+import br.dev.viniciusleonel.localweb.dto.email.*
 import br.dev.viniciusleonel.localweb.model.Email
 import br.dev.viniciusleonel.localweb.model.User
 import org.springframework.data.domain.Page
@@ -29,8 +27,8 @@ fun Page<Email>.toEmailDetailsDTO(): Page<EmailDetailsDTO> {
     return this.map { email ->
         EmailDetailsDTO(
             id = email.id,
-            sendByUser = email.sentByUser.username, // Ajuste conforme necessário
-            receiveByUser = email.receivedByUser?.username ?: "N/A", // Ajuste conforme necessário
+            sendByUser = email.sentByUser.email,
+            receiveByUser = email.receivedByUser.email,
             subject = email.subject,
             sendAt = email.sentAt,
             wasRead = email.wasRead
@@ -41,11 +39,32 @@ fun Page<Email>.toEmailDetailsDTO(): Page<EmailDetailsDTO> {
 fun Email.toEmailDetailsDTO(): EmailDetailsWithBodyDTO {
     return EmailDetailsWithBodyDTO(
         id = this.id,
-        sendByUser = this.sentByUser.username, // Ajuste conforme necessário
-        receiveByUser = this.receivedByUser?.username ?: "N/A", // Ajuste conforme necessário
+        sendByUser = this.sentByUser.email,
+        receiveByUser = this.receivedByUser.email,
         subject = this.subject,
         body = this.body,
         sendAt = this.sentAt,
+        wasRead = this.wasRead
+    )
+}
+
+fun Email.toSentEmailDTO(): SentEmailDTO {
+    return SentEmailDTO(
+        id = this.id,
+        subject = this.subject,
+        receivedByUser = this.receivedByUser.email,
+        sentAt = this.sentAt,
+        wasRead = this.wasRead
+
+    )
+}
+
+fun Email.toReceivedEmailDTO(): ReceivedEmailDTO {
+    return ReceivedEmailDTO(
+        id = this.id,
+        subject = this.subject,
+        sentByUser = this.sentByUser.email,
+        sentAt = this.sentAt,
         wasRead = this.wasRead
     )
 }

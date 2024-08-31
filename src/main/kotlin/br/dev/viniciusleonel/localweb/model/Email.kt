@@ -19,7 +19,7 @@ data class Email(
     @ManyToOne
     @JoinColumn(name = "received_by_user_id")
     @JsonBackReference
-    val receivedByUser: User? = null,
+    val receivedByUser: User,
 
     val subject: String,
     val body: String,

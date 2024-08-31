@@ -52,7 +52,7 @@ class UserController(private val service: UserService) {
     }
 
     @GetMapping
-    fun listUsers(@PageableDefault(size = 10, sort = ["id"])pageable: Pageable ): ResponseEntity<Page<User>> {
+    fun listUsers(@PageableDefault(size = 10, sort = ["id"])pageable: Pageable ): ResponseEntity<Page<UserListDTO>> {
         val page = service.listUsers(pageable)
         return ResponseEntity.ok(page)
     }

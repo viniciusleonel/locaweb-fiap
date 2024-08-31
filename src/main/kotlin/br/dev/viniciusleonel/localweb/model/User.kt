@@ -1,5 +1,9 @@
 package br.dev.viniciusleonel.localweb.model
 
+import br.dev.viniciusleonel.localweb.dto.email.ReceivedEmailDTO
+import br.dev.viniciusleonel.localweb.dto.email.SentEmailDTO
+import br.dev.viniciusleonel.localweb.utils.toReceivedEmailDTO
+import br.dev.viniciusleonel.localweb.utils.toSentEmailDTO
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 
@@ -44,5 +48,13 @@ class User (
 
     fun deleteUser() {
         this.status = false
+    }
+
+    fun getSentEmailsDTO(): MutableList<SentEmailDTO> {
+        return this.sentEmails.map { it.toSentEmailDTO() }.toMutableList()
+    }
+
+    fun getReceivedEmailsDTO(): MutableList<ReceivedEmailDTO> {
+        return this.receivedEmails.map { it.toReceivedEmailDTO() }.toMutableList()
     }
 }

@@ -55,8 +55,8 @@ class UserService(private val repository: UserRepository, private val passwordSe
         return repository.save(user)
     }
 
-    fun listUsers(pageable: Pageable): Page<User> {
-        val page = repository.findAllByStatusTrue(pageable)
+    fun listUsers(pageable: Pageable): Page<UserListDTO> {
+        val page = repository.findAllByStatusTrue(pageable).toUserListDTOPage()
         return page
     }
 
@@ -81,3 +81,5 @@ class UserService(private val repository: UserRepository, private val passwordSe
     }
 
 }
+
+
