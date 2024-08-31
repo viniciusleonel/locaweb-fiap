@@ -4,15 +4,18 @@ import br.dev.viniciusleonel.localweb.dto.MessageDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDetailsDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDetailsWithBodyDTO
+import br.dev.viniciusleonel.localweb.infra.exception.CustomException
 import br.dev.viniciusleonel.localweb.model.Email
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.repository.EmailRepository
 import br.dev.viniciusleonel.localweb.repository.UserRepository
 import br.dev.viniciusleonel.localweb.utils.generateEmailWithSenderAndRecipient
+import br.dev.viniciusleonel.localweb.utils.isActive
 import br.dev.viniciusleonel.localweb.utils.toEmailDetailsDTO
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -41,6 +44,11 @@ class EmailService(
 
         val recipient   = userRepository.findByEmail(emailDTO.receivedByUser)
             ?: throw EntityNotFoundException("User not found with id: '${emailDTO.receivedByUser}'")
+
+        sender.isActive(userRepository, sender)
+        if (!recipient.status) {
+            throw CustomException("User not found: '${recipient.email}'", HttpStatus.NOT_FOUND)
+        }
 
         val email = emailDTO.generateEmailWithSenderAndRecipient(sender, recipient)
         emailRepository.save(email)
