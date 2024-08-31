@@ -63,6 +63,16 @@ class EmailService(
         return page.toEmailDetailsDTO()
     }
 
+    fun listEmailsBySender(id: Long, pageable: Pageable): Page<EmailDetailsDTO> {
+        val page = emailRepository.findAllBySentByUserId(id, pageable)
+        return page.toEmailDetailsDTO()
+    }
+
+    fun listEmailsByReceiver(id: Long, pageable: Pageable): Page<EmailDetailsDTO> {
+        val page = emailRepository.findAllByReceivedByUserId(id, pageable)
+        return page.toEmailDetailsDTO()
+    }
+
     @Transactional
     fun deleteEmailById(id: Long) : MessageDTO{
         val email = emailRepository.findById(id)
@@ -71,8 +81,11 @@ class EmailService(
         return MessageDTO("Email with id: '$id' was deleted")
     }
 
+    @Transactional
     fun getEmailById(id: Long): EmailDetailsWithBodyDTO {
         val email = emailRepository.findById(id).orElseThrow { EntityNotFoundException("Email not found with id: '$id'") }
+        email.wasRead = true
+        emailRepository.save(email)
         return email.toEmailDetailsDTO()
     }
 
