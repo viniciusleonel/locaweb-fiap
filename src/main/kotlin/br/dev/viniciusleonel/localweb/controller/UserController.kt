@@ -40,7 +40,7 @@ class UserController(private val service: UserService) {
     }
 
     @GetMapping("/{userId}")
-    fun getUser(@PathVariable userId: Long): ResponseEntity<User> {
+    fun getUser(@PathVariable userId: Long): ResponseEntity<UserListDTO> {
         val preferences = service.getUserById(userId)
         return ResponseEntity.ok(preferences)
     }
