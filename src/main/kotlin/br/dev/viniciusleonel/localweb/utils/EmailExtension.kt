@@ -52,7 +52,7 @@ fun Email.toSentEmailDTO(): SentEmailDTO {
     return SentEmailDTO(
         id = this.id,
         subject = this.subject,
-        receivedByUser = this.receivedByUser.email,
+        sendTo = this.receivedByUser.email,
         sentAt = this.sentAt,
         wasRead = this.wasRead
 
@@ -63,7 +63,7 @@ fun Email.toReceivedEmailDTO(): ReceivedEmailDTO {
     return ReceivedEmailDTO(
         id = this.id,
         subject = this.subject,
-        sentByUser = this.sentByUser.email,
+        receivedFrom = this.sentByUser.email,
         sentAt = this.sentAt,
         wasRead = this.wasRead
     )

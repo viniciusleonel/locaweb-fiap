@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 class ReceivedEmailDTO(
     val id: Long,
     val subject: String,
-    val sentByUser: String,
+    val receivedFrom: String,
     val sentAt: LocalDateTime,
     val wasRead: Boolean
 )
