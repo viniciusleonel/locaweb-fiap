@@ -21,7 +21,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class EmailService(
     private val emailRepository: EmailRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val spamControlService: SpamControlService
 ) {
 
     private fun redirectEmails(
@@ -47,6 +48,11 @@ class EmailService(
         sender.isActive(userRepository, sender)
         if (!recipient.status) {
             throw CustomException("User not found: '${recipient.email}'", HttpStatus.NOT_FOUND)
+        }
+
+        // Verificar se o usuário pode enviar mais e-mails
+        if (!spamControlService.canSendEmail(sender.email)) {
+            throw CustomException("Email sending limit reached for user: '${sender.email}'", HttpStatus.TOO_MANY_REQUESTS)
         }
 
         val email = emailDTO.generateEmailWithSenderAndRecipient(sender, recipient)
