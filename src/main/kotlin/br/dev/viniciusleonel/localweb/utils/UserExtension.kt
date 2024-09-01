@@ -57,6 +57,7 @@ fun User.toUserDetailsDTO(user: User): UserDetailsDTO {
     return UserDetailsDTO(
         id = this.id,
         name = this.name,
+        username = this.username,
         email = this.email,
         isLoggedIn = this.isLoggedIn,
     )

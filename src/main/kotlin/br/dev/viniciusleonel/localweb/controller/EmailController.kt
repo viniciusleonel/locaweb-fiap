@@ -4,7 +4,7 @@ import br.dev.viniciusleonel.localweb.dto.MessageDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDetailsDTO
 import br.dev.viniciusleonel.localweb.dto.email.EmailDetailsWithBodyDTO
-import br.dev.viniciusleonel.localweb.model.Email
+import br.dev.viniciusleonel.localweb.dto.email.SentEmailDTO
 import br.dev.viniciusleonel.localweb.service.EmailService
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*
 class EmailController(private val emailService: EmailService) {
 
     @PostMapping
-    fun sendEmail(@RequestBody @Valid email: EmailDTO): ResponseEntity<Email> {
+    fun sendEmail(@RequestBody @Valid email: EmailDTO): ResponseEntity<SentEmailDTO> {
         val savedPreferences = emailService.sendEmail(email)
         return ResponseEntity.ok(savedPreferences)
     }

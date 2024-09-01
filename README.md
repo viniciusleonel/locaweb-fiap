@@ -1,13 +1,15 @@
 # Locaweb API
 
-Decrição
-
+A API Locaweb é uma solução robusta desenvolvida para gerenciar usuários, preferências 
+de usuários e emails. Construída utilizando Kotlin e Spring, a API oferece endpoints 
+para operações CRUD (Create, Read, Update, Delete) em usuários e suas preferências, 
+além de funcionalidades para envio e gerenciamento de emails.
 
 ## Executando o banco de dados MySql com Docker
 
 1. Tenha o Docker instalado.
 2. Clone este repositório: `git clone https://github.com/viniciusleonel/locaweb-fiap`
-3. Abra o projeto em sua IDE preferida.
+3. Abra o projeto em sua IDE preferida ( Indicamos o IntelliJ ).
 4. Existe uma configuração para um banco de dados local em `application.properties` e `docker-compose.yml`,
 caso deseje usar uma database própria, faça a configuração nesses arquivos.
 6. Abra o terminal na pasta raiz que contém o arquivo `docker-compose.yml` e digite o comando:
@@ -180,15 +182,15 @@ Ao adicionar uma prefência ela será atrelada ao usuário automaticamente cujo 
 }
 ```
 
-### Emails
+### Emails - Usuário remetente necessário estar logado!*
 
 #### Enviar Email: POST http://localhost:8080/api/email
 
 - Formato Json - Todos os campos são obrigatórios
 ```json
 {
-  "sentByUser": "teste@gmail.com",
-  "receivedByUser": "vinicius@gmail.com",
+  "sentByUser": "user1@gmail.com",
+  "receivedByUser": "user2@gmail.com",
   "subject": "Email Teste",
   "body": "Estou mandando um email teste"
 }
@@ -208,31 +210,49 @@ Ao adicionar uma prefência ela será atrelada ao usuário automaticamente cujo 
 - Retorno
 ```json
 {
-  "id": 11,
+  "id": 1,
   "subject": "Email Teste",
-  "body": "Estou mandando um email teste",
-  "sentAt": "2024-08-29T17:43:49.0523626",
+  "sendTo": "user2@gmail.com",
+  "sentAt": "2024-09-01T14:01:12.8877518",
   "wasRead": false
 }
 ```
 
 #### Buscar email: GET http://localhost:8080/api/email/{id}
-- Será retornado um único email com 'body'.
+- Será retornado um único email com `body`.
+- Campo `wasRead` será alterado para `true`
 
 ```json
 {
   "id": 1,
-  "sendByUser": "teste",
-  "receiveByUser": "vinicim",
+  "sendByUser": "user1@gmail.com",
+  "receiveByUser": "user2@gmail.com",
   "subject": "Email Teste",
   "body": "Estou mandando um email teste",
   "sendAt": "2024-08-29T18:09:39.66685",
-  "wasRead": false
+  "wasRead": true
 }
 ```
 
 #### Listar emails: GET http://localhost:8080/api/email
-- Será retornada uma lista de emails com paginação sem campo 'body'.
+- Será retornada uma lista de emails com paginação sem campo `body`.
+```json
+{
+  "id": 1,
+  "sendByUser": "user1@gmail.com",
+  "receiveByUser": "user2@gmail.com",
+  "subject": "Email Teste",
+  "body": "Estou mandando um email teste",
+  "sendAt": "2024-09-01T13:50:26.716468",
+  "wasRead": true
+}
+```
+
+#### Listar emails por remetente (`sendByUser`): GET http://localhost:8080/api/email/sender/{id}
+- Será retornada uma lista de emails com paginação sem campo `body`.
+
+#### Listar emails por destinatario (`receiveByUser`): GET http://localhost:8080/api/email/receiver/{id}
+- Será retornada uma lista de emails com paginação sem campo `body`.
 
 #### Deletar email: DELETE http://localhost:8080/api/email/{id}
 - Será deletado um único email.
