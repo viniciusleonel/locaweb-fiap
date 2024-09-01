@@ -8,7 +8,7 @@ além de funcionalidades para envio e gerenciamento de emails.
 ## Executando o banco de dados MySql com Docker
 
 1. Tenha o Docker instalado.
-2. Clone este repositório: `git clone https://github.com/viniciusleonel/locaweb-fiap`
+2. Clone este repositório: `git clone https://github.com/viniciusleonel/locaweb-fiap`.
 3. Abra o projeto em sua IDE preferida ( Indicamos o IntelliJ ).
 4. Existe uma configuração para um banco de dados local em `application.properties` e `docker-compose.yml`,
 caso deseje usar uma database própria, faça a configuração nesses arquivos.
@@ -19,15 +19,21 @@ Feito isso, o banco de dados estará pronto, agora inicie a aplicação executan
 
 URL Base: `http://localhost:8080/api`.
 
+### Documentação SpringDoc ( Swagger ): http://localhost:8080/swagger-ui/index.html
+
 ## Como Utilizar
 
-  ### Parâmetros de Paginação e Ordenação
-  /pacientes?page=0&size=1&sort=nome
+- Exemplo de requisições no arquivo `http`.
+
+### Parâmetros de Paginação e Ordenação
+  `?page=0&size=1&sort=field`
 - **page**: <span style="color: green;">integer</span>  
   minimum: 0
 - **size**: <span style="color: green;">integer</span>  
   minimum: 1
 - **sort**: <span style="color: green;">[string]</span>
+
+Exemplo: `http://localhost:8080/api/user?page=0&size=1&sort=name,desc`
 
 
 ### Users
@@ -184,6 +190,8 @@ Ao adicionar uma prefência ela será atrelada ao usuário automaticamente cujo 
 
 ### Emails - Usuário remetente necessário estar logado!*
 
+- Controle de SPAM: 5 emails por MIN.
+
 #### Enviar Email: POST http://localhost:8080/api/email
 
 - Formato Json - Todos os campos são obrigatórios
@@ -269,7 +277,7 @@ marcando-o como não lido para o destinatário até que seja visualizado.
 ## Tecnologias Utilizadas
 
 - Kotlin
-- Spring Framework
+- Spring
 - Hibernate (JPA)
 - MySQL
 - Docker
