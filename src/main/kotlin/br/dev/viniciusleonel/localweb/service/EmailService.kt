@@ -46,14 +46,12 @@ class EmailService(
             ?: throw EntityNotFoundException("User not found with id: '${emailDTO.receivedByUser}'")
 
         sender.isActive(userRepository, sender)
-        if (!recipient.status) {
+        if (!recipient.status)
             throw CustomException("User not found: '${recipient.email}'", HttpStatus.NOT_FOUND)
-        }
 
         // Verificar se o usuário pode enviar mais e-mails
-        if (!spamControlService.canSendEmail(sender.email)) {
+        if (!spamControlService.canSendEmail(sender.email))
             throw CustomException("Email sending limit reached for user: '${sender.email}'", HttpStatus.TOO_MANY_REQUESTS)
-        }
 
         val email = emailDTO.generateEmailWithSenderAndRecipient(sender, recipient)
         emailRepository.save(email)

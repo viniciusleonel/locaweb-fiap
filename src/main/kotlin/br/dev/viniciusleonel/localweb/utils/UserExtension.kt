@@ -8,18 +8,15 @@ import br.dev.viniciusleonel.localweb.infra.exception.CustomException
 import br.dev.viniciusleonel.localweb.infra.security.EncodeService
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.repository.UserRepository
-import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 
 fun UserDTO.exists(repository: UserRepository, userDTO: UserDTO) : UserDTO {
-    if (repository.existsByUsername(userDTO.username.lowercase().replace(" ", ""))) {
+    if (repository.existsByUsername(userDTO.username.lowercase().replace(" ", "")))
         throw CustomException("Username already exists: ${userDTO.username.replace(" ", "")}")
-    }
 
-    if (repository.existsByEmail(userDTO.email.lowercase())) {
+    if (repository.existsByEmail(userDTO.email.lowercase()))
         throw CustomException("Email already exists: ${userDTO.email.lowercase()}")
-    }
 
     return this
 }
@@ -27,12 +24,10 @@ fun UserDTO.exists(repository: UserRepository, userDTO: UserDTO) : UserDTO {
 fun User.isActive(repository: UserRepository, user: User, endpoint: String = "")  {
     val user1 = repository.findByUsername(user.username)
     if (user1 != null) {
-        if (!user1.status) {
+        if (!user1.status)
             throw CustomException("User not found with username: ${user1.username}",  HttpStatus.NOT_FOUND)
-        }
-        if (!user1.isLoggedIn && !endpoint.equals("login", ignoreCase = true)) {
+        if (!user1.isLoggedIn && !endpoint.equals("login", ignoreCase = true))
             throw CustomException("User '${user1.username}' is not logged in.", HttpStatus.UNAUTHORIZED)
-        }
     }
     return
 }

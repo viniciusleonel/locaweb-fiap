@@ -27,9 +27,8 @@ class UserService(private val repository: UserRepository, private val passwordSe
         val user = repository.findByUsername(loginDTO.username)
             ?: throw EntityNotFoundException("User not found with username: '${loginDTO.username}'")
         user.isActive(repository, user, "login")
-        if (!passwordService.matches(loginDTO.password, user.password)) {
+        if (!passwordService.matches(loginDTO.password, user.password))
             throw CustomException("Invalid password")
-        }
         user.logIn()
         repository.save(user)
         return user.toUserDetailsDTO(user)
@@ -43,9 +42,7 @@ class UserService(private val repository: UserRepository, private val passwordSe
         if (user.isLoggedIn) {
             user.logOut()
             return MessageDTO("User '${logoutDTO.username}' is logged out!")
-        } else {
-            throw CustomException("User '${logoutDTO.username}' is not logged in")
-        }
+        } else throw CustomException("User '${logoutDTO.username}' is not logged in")
     }
 
     @Transactional

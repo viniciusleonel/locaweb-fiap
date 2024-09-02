@@ -197,10 +197,11 @@ Ao adicionar uma prefência ela será atrelada ao usuário automaticamente cujo 
 ### Emails - Usuário remetente necessário estar logado!*
 
 - Controle de SPAM: 5 emails por MIN.
+- Todos os campos são obrigatórios
 
 #### Enviar Email: POST http://localhost:8080/api/email
 
-- Formato Json - Todos os campos são obrigatórios
+- Formato Json 
 ```json
 {
   "sentByUser": "user1@gmail.com",
