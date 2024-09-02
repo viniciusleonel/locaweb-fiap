@@ -11,19 +11,25 @@ facilitando futuras migrações de dados. Além disso, ela permite o envio de em
 com controle rigoroso de acesso e de leitura, garantindo que essas operações sejam realizadas 
 apenas por usuários ativos e logados no sistema.
 
-## Executando o banco de dados MySql com Docker
+## Executando Locaweb API com Docker
 
 1. Tenha o Docker instalado.
 2. Clone este repositório: `git clone https://github.com/viniciusleonel/locaweb-fiap`.
 3. Abra o projeto em sua IDE preferida ( Indicamos o IntelliJ ).
 4. Existe uma configuração para um banco de dados local em `application.properties` e `docker-compose.yml`,
 caso deseje usar uma database própria, faça a configuração nesses arquivos.
-6. Abra o terminal na pasta raiz que contém o arquivo `docker-compose.yml` e digite o comando:
-`docker-compose up -d`
+5. Construa a imagem Docker da aplicação executando o seguinte comando no terminal, na pasta raiz do projeto:
+   ```sh
+   docker build -t locaweb-api .
+   ```
+6. Após a construção da imagem, inicie os contêineres definidos no `docker-compose.yml` com o comando:
+   ```sh
+   docker-compose up -d
+   ```
+   Isso irá iniciar os contêineres em segundo plano.
 
-Feito isso, o banco de dados estará pronto, agora inicie a aplicação executando a classe `LocalwebApplication`.
+Após executar o comando `docker-compose up -d`, serão criados três contêineres: `locaweb`, `database-locaweb` e `api-locaweb`. O contêiner `database-locaweb` será responsável pelo banco de dados MySQL, enquanto o contêiner `api-locaweb` hospedará a aplicação Locaweb API. O contêiner `locaweb` servirá como uma rede para conectar os outros dois contêineres. A aplicação estará pronta para uso e poderá ser acessada através da URL base `http://localhost:8080/api`.
 
-URL Base: `http://localhost:8080/api`.
 
 ### Documentação SpringDoc ( Swagger ): http://localhost:8080/swagger-ui/index.html
 

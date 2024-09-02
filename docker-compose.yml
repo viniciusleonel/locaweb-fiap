@@ -3,7 +3,7 @@ version: '3.8'
 services:
   db:
     image: mysql:8.0
-    container_name: locaweb
+    container_name: database-locaweb
     environment:
       MYSQL_ROOT_PASSWORD: locaweb123
       MYSQL_DATABASE: locaweb
@@ -11,8 +11,26 @@ services:
       MYSQL_PASSWORD: locaweb123
     ports:
       - "3306:3306"
-    volumes:
-      - db_data:/var/lib/mysql
+    networks:
+      - app-network
 
-volumes:
-  db_data:
+  app:
+      image: locaweb-api
+      container_name: api-locaweb
+      build:
+        context: .
+        dockerfile: Dockerfile
+      ports:
+        - "8080:8080"
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/locaweb
+        SPRING_DATASOURCE_USERNAME: locaweb
+        SPRING_DATASOURCE_PASSWORD: locaweb123
+      depends_on:
+        - db
+      networks:
+        - app-network
+
+networks:
+  app-network:
+    driver: bridge
