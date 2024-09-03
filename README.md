@@ -16,27 +16,31 @@ apenas por usuários ativos e logados no sistema.
 1. Tenha o Docker instalado.
 2. Clone este repositório: `git clone https://github.com/viniciusleonel/locaweb-fiap`.
 3. Abra o projeto em sua IDE preferida (Indicamos o IntelliJ).
-4. Existe uma configuração para um banco de dados local em `application.properties`, `docker-compose.yml` e `docker-compose.database.yml`.
+4. Existe uma configuração pre-definida para um banco de dados local em `application.properties` e `docker-compose.yml`.
 
-Você tem duas opções:
-   - Iniciar a aplicação completa em um contêiner.
-   - Iniciar apenas o banco de dados em um contêiner e rodar a aplicação na sua IDE.
+### Iniciar a aplicação completa em um contêiner
 
-   ` docker-compose -f docker-compose.yml -f docker-compose.database.yml up -d`
-
-   Ou caso deseje usar um banco de dados próprio, faça a configuração nesses arquivos.
-   
-5. Para iniciar a aplicação completa em um contêiner, construa a imagem Docker da aplicação executando o seguinte comando no terminal, na pasta raiz do projeto:
+1. Construa a imagem Docker da aplicação executando o seguinte comando no terminal na pasta raiz do projeto:
    ```sh
    docker build -t locaweb-api .
    ```
-6. Após a construção da imagem, inicie os contêineres definidos no `docker-compose.yml` com o comando:
+2. Após a construção da imagem, inicie os contêineres definidos no `docker-compose.yml` com o comando:
    ```sh
    docker-compose up -d
    ```
    Isso irá iniciar os contêineres em segundo plano.
 
 Após executar o comando `docker-compose up -d`, serão criados três contêineres: `locaweb`, `database-locaweb` e `api-locaweb`. O contêiner `database-locaweb` será responsável pelo banco de dados MySQL, enquanto o contêiner `api-locaweb` hospedará a aplicação Locaweb API. O contêiner `locaweb` servirá como uma rede para conectar os outros dois contêineres. A aplicação estará pronta para uso e poderá ser acessada através da URL base `http://localhost:8080/api`.
+
+### Iniciar apenas o banco de dados em um contêiner
+
+1. Abra o arquivo `application.properties` e troque as configurações para utilizar somente o container do banco de dados.
+2. Inicie o contêiner do banco de dados definido no `docker-compose.database.yml` com o comando:
+   ```sh
+   docker-compose -f docker-compose.database.yml up -d
+   ```
+3. O banco de dados será iniciado e agora você pode rodar a aplicação executando a classe `LocawebApplication`
+
 
 
 ### Documentação SpringDoc ( Swagger ): http://localhost:8080/swagger-ui/index.html
