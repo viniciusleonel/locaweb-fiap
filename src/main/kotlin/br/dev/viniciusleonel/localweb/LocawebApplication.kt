@@ -7,7 +7,7 @@ import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
-class LocalwebApplication(val userRepository: UserRepository) {
+class LocawebApplication(val userRepository: UserRepository) {
 
     @Bean
     fun setAllUsersLoggedOut() = CommandLineRunner {
@@ -16,7 +16,7 @@ class LocalwebApplication(val userRepository: UserRepository) {
 }
 
 fun main(args: Array<String>) {
-    runApplication<LocalwebApplication>(*args)
+    runApplication<LocawebApplication>(*args)
 
 
 }

@@ -15,10 +15,18 @@ apenas por usuários ativos e logados no sistema.
 
 1. Tenha o Docker instalado.
 2. Clone este repositório: `git clone https://github.com/viniciusleonel/locaweb-fiap`.
-3. Abra o projeto em sua IDE preferida ( Indicamos o IntelliJ ).
-4. Existe uma configuração para um banco de dados local em `application.properties` e `docker-compose.yml`,
-caso deseje usar uma database própria, faça a configuração nesses arquivos.
-5. Construa a imagem Docker da aplicação executando o seguinte comando no terminal, na pasta raiz do projeto:
+3. Abra o projeto em sua IDE preferida (Indicamos o IntelliJ).
+4. Existe uma configuração para um banco de dados local em `application.properties`, `docker-compose.yml` e `docker-compose.database.yml`.
+
+Você tem duas opções:
+   - Iniciar a aplicação completa em um contêiner.
+   - Iniciar apenas o banco de dados em um contêiner e rodar a aplicação na sua IDE.
+
+   ` docker-compose -f docker-compose.yml -f docker-compose.database.yml up -d`
+
+   Ou caso deseje usar um banco de dados próprio, faça a configuração nesses arquivos.
+   
+5. Para iniciar a aplicação completa em um contêiner, construa a imagem Docker da aplicação executando o seguinte comando no terminal, na pasta raiz do projeto:
    ```sh
    docker build -t locaweb-api .
    ```

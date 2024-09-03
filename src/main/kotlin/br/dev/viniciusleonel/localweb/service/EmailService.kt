@@ -40,10 +40,10 @@ class EmailService(
     @Transactional
     fun sendEmail(emailDTO: EmailDTO): SentEmailDTO {
         val sender  = userRepository.findByEmail(emailDTO.sentByUser)
-            ?: throw EntityNotFoundException("User not found with id: '${emailDTO.sentByUser}'")
+            ?: throw EntityNotFoundException("User not found with email: '${emailDTO.sentByUser}'")
 
         val recipient   = userRepository.findByEmail(emailDTO.receivedByUser)
-            ?: throw EntityNotFoundException("User not found with id: '${emailDTO.receivedByUser}'")
+            ?: throw EntityNotFoundException("User not found with email: '${emailDTO.receivedByUser}'")
 
         sender.isActive(userRepository, sender)
         if (!recipient.status)
