@@ -30,7 +30,7 @@ fun User.isActive(repository: UserRepository, user: User, endpoint: String = "")
             throw CustomException("User not found with username: ${checkUser.username}",  HttpStatus.NOT_FOUND)
         if (!checkUser.isLoggedIn && !endpoint.equals("login", ignoreCase = true))
             throw CustomException("User '${checkUser.username}' is not logged in.", HttpStatus.UNAUTHORIZED)
-        if (timeNow.isAfter(checkUser.lastLogin.plusHours(2)))
+        if (timeNow.isAfter(checkUser.lastLogin.plusHours(2)) && !endpoint.equals("login", ignoreCase = true))
             throw CustomException("Login expired!")
     }
     return
@@ -69,6 +69,7 @@ fun User.toUserListDTO(): UserListDTO {
         username = this.username,
         email = this.email,
         isLoggedIn = this.isLoggedIn,
+        lastLogin = this.lastLogin,
         status = this.status,
         userPreferences = this.userPreferences,
         sentEmails = this.getSentEmailsDTO(),
