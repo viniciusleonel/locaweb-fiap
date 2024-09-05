@@ -10,6 +10,7 @@ import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.repository.UserRepository
 import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
+import java.time.LocalDateTime
 
 fun UserDTO.exists(repository: UserRepository, userDTO: UserDTO) : UserDTO {
     if (repository.existsByUsername(userDTO.username.lowercase().replace(" ", "")))
@@ -22,12 +23,15 @@ fun UserDTO.exists(repository: UserRepository, userDTO: UserDTO) : UserDTO {
 }
 
 fun User.isActive(repository: UserRepository, user: User, endpoint: String = "")  {
-    val user1 = repository.findByUsername(user.username)
-    if (user1 != null) {
-        if (!user1.status)
-            throw CustomException("User not found with username: ${user1.username}",  HttpStatus.NOT_FOUND)
-        if (!user1.isLoggedIn && !endpoint.equals("login", ignoreCase = true))
-            throw CustomException("User '${user1.username}' is not logged in.", HttpStatus.UNAUTHORIZED)
+    val checkUser = repository.findByUsername(user.username)
+    val timeNow = LocalDateTime.now()
+    if (checkUser != null) {
+        if (!checkUser.status)
+            throw CustomException("User not found with username: ${checkUser.username}",  HttpStatus.NOT_FOUND)
+        if (!checkUser.isLoggedIn && !endpoint.equals("login", ignoreCase = true))
+            throw CustomException("User '${checkUser.username}' is not logged in.", HttpStatus.UNAUTHORIZED)
+        if (timeNow.isAfter(checkUser.lastLogin.plusHours(2)))
+            throw CustomException("Login expired!")
     }
     return
 }

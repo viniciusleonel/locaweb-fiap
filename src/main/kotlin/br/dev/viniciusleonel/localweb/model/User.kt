@@ -6,6 +6,8 @@ import br.dev.viniciusleonel.localweb.utils.toReceivedEmailDTO
 import br.dev.viniciusleonel.localweb.utils.toSentEmailDTO
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "users")
@@ -23,9 +25,10 @@ class User (
 
     var password: String = "",
     var isLoggedIn: Boolean = false,
+    var lastLogin: LocalDateTime = LocalDateTime.of(2022, 1, 1, 0, 0),
     var status: Boolean = true,
 
-) {
+    ) {
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     var userPreferences: MutableList<UserPreferences> = mutableListOf()
@@ -39,6 +42,7 @@ class User (
     var receivedEmails: MutableList<Email> = mutableListOf()
 
     fun logIn() {
+        this.lastLogin = LocalDateTime.now()
         this.isLoggedIn = true
     }
 
