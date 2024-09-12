@@ -68,7 +68,10 @@ spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
    ```
    Isso irá iniciar os contêineres em segundo plano.
 
-Após executar o comando `docker-compose up -d`, serão criados três contêineres: `locaweb`, `database-locaweb` e `api-locaweb`. O contêiner `database-locaweb` será responsável pelo banco de dados MySQL, enquanto o contêiner `api-locaweb` hospedará a aplicação Locaweb API. O contêiner `locaweb` servirá como uma rede para conectar os outros dois contêineres. A aplicação estará pronta para uso e poderá ser acessada através da URL base `http://localhost:8080/api`.
+Após executar o comando `docker-compose up -d`, serão criados três contêineres: `locaweb`, `database-locaweb` e `api-locaweb`. 
+O contêiner `database-locaweb` será responsável pelo banco de dados MySQL, enquanto o contêiner `api-locaweb` hospedará a aplicação 
+Locaweb API. O contêiner `locaweb` servirá como uma rede para conectar os outros dois contêineres. A aplicação estará pronta para uso 
+e poderá ser acessada através da URL base `http://localhost:8080/api`.
 
 ### Documentação SpringDoc ( Swagger ): http://localhost:8080/swagger-ui/index.html
 

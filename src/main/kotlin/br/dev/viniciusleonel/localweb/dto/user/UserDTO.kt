@@ -9,7 +9,7 @@ data class UserDTO(
     var name: String = "",
 
     @field:NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
+    @field:Email(message = "Invalid email format")
     var email: String = "",
 
     @field:NotBlank(message = "Username is required")

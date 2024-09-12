@@ -32,7 +32,7 @@ fun User.isActive(repository: UserRepository, user: User, endpoint: String = "")
             throw CustomException("User not found with username: ${checkUser.username}",  HttpStatus.NOT_FOUND)
         if (!checkUser.isLoggedIn && !endpoint.equals("login", ignoreCase = true))
             throw CustomException("User '${checkUser.username}' is not logged in.", HttpStatus.UNAUTHORIZED)
-        if (timeNow.isAfter(checkUser.lastLogin.plusMinutes(1)) && !endpoint.equals("login", ignoreCase = true)) {
+        if (timeNow.isAfter(checkUser.lastLogin.plusHours(2)) && !endpoint.equals("login", ignoreCase = true)) {
             checkUser.logOut()
             repository.save(checkUser)
             throw CustomException("Login expired!")
