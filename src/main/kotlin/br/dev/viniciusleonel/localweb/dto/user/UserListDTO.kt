@@ -13,7 +13,7 @@ class UserListDTO(
     val isLoggedIn: Boolean,
     val lastLogin: LocalDateTime,
     val status: Boolean,
-    val userPreferences: MutableList<UserPreferences>,
+    val userPreferences: UserPreferences,
     val sentEmails: MutableList<SentEmailDTO>,
     val receivedEmails: MutableList<ReceivedEmailDTO>
 )
