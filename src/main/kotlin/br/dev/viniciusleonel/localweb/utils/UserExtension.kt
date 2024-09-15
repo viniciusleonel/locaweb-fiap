@@ -37,7 +37,6 @@ fun User.isActive(repository: UserRepository, user: User, endpoint: String = "")
             repository.save(checkUser)
             throw CustomException("Login expired!")
         }
-
     }
     return
 }

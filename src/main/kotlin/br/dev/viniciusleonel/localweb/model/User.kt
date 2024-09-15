@@ -29,9 +29,9 @@ class User (
     var status: Boolean = true,
 
     ) {
-    @OneToMany(mappedBy = "user")
+    @OneToOne(mappedBy = "user")
     @JsonManagedReference
-    var userPreferences: MutableList<UserPreferences> = mutableListOf()
+    var userPreferences: UserPreferences = UserPreferences()
 
     @OneToMany(mappedBy = "sentByUser")
     @JsonManagedReference

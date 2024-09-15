@@ -10,8 +10,6 @@ import br.dev.viniciusleonel.localweb.utils.isActive
 import br.dev.viniciusleonel.localweb.utils.toUserPreferences
 import br.dev.viniciusleonel.localweb.utils.updateFromDTO
 import jakarta.persistence.EntityNotFoundException
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -65,10 +63,10 @@ class UserPreferencesService(private val userPreferencesRepository: UserPreferen
         return preferences
     }
 
-    fun listPreferences(userId: Long, pageable: Pageable): Page<UserPreferences> {
+    fun getPreferencesByUserId(userId: Long): UserPreferences {
         val user = userRepository.findById(userId).orElseThrow { EntityNotFoundException("User not found with id: '$userId'") }
         user.isActive(userRepository, user)
-        return userPreferencesRepository.findAllByUserId(userId, pageable)
+        return userPreferencesRepository.findAllByUserId(userId)
     }
 
 }

@@ -18,7 +18,7 @@ data class UserPreferences(
 
     var labels: String = "",
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
     var user: User? = null

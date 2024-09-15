@@ -8,9 +8,6 @@ import br.dev.viniciusleonel.localweb.model.UserPreferences
 import br.dev.viniciusleonel.localweb.service.UserPreferencesService
 import br.dev.viniciusleonel.localweb.utils.toResponseDTO
 import jakarta.validation.Valid
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
-import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -43,9 +40,9 @@ class UserPreferencesController(private val service: UserPreferencesService) {
     }
 
     @GetMapping("/user/{userId}")
-    fun listPreferences(@PathVariable userId: Long, @PageableDefault(size = 10, sort = ["id"])pageable: Pageable): ResponseEntity<Page<UserPreferences>> {
-        val page = service.listPreferences(userId, pageable)
-        return ResponseEntity.ok(page)
+    fun getPreferencesByUserId(@PathVariable userId: Long): ResponseEntity<UserPreferences> {
+        val preferences = service.getPreferencesByUserId(userId)
+        return ResponseEntity.ok(preferences)
     }
 
 
