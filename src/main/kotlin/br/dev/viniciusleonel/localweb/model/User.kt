@@ -6,6 +6,8 @@ import br.dev.viniciusleonel.localweb.utils.toReceivedEmailDTO
 import br.dev.viniciusleonel.localweb.utils.toSentEmailDTO
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
+import org.hibernate.annotations.LazyToOne
+import org.hibernate.annotations.LazyToOneOption
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -29,9 +31,9 @@ class User (
     var status: Boolean = true,
 
     ) {
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], optional = true)
     @JsonManagedReference
-    var userPreferences: UserPreferences = UserPreferences()
+    var userPreferences: UserPreferences? = null
 
     @OneToMany(mappedBy = "sentByUser")
     @JsonManagedReference

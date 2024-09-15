@@ -1,9 +1,12 @@
 package br.dev.viniciusleonel.localweb.controller
 
 import br.dev.viniciusleonel.localweb.dto.*
+import br.dev.viniciusleonel.localweb.dto.preferences.UserPreferencesDTO
 import br.dev.viniciusleonel.localweb.dto.user.*
 import br.dev.viniciusleonel.localweb.model.User
+import br.dev.viniciusleonel.localweb.service.UserPreferencesService
 import br.dev.viniciusleonel.localweb.service.UserService
+import br.dev.viniciusleonel.localweb.utils.toUserPreferences
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -13,7 +16,10 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/user")
-class UserController(private val service: UserService) {
+class UserController(
+    private val service: UserService,
+    private val userPreferencesService: UserPreferencesService
+) {
 
     @PostMapping("/login")
     fun login(@Valid @RequestBody loginDTO: UserLogInDTO): ResponseEntity<UserDetailsDTO> {
@@ -30,6 +36,9 @@ class UserController(private val service: UserService) {
     @PostMapping
     fun insertUser(@RequestBody @Valid userDTO: UserDTO): ResponseEntity<User> {
         val user = service.insertUser(userDTO)
+        val userPreferences = UserPreferencesDTO("", "", "", "", user.id)
+        user.userPreferences = userPreferences.toUserPreferences(user)
+        service.saveUserWithPreferences(user)
         return ResponseEntity.ok(user)
     }
 

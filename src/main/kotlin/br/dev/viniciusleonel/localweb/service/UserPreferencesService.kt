@@ -22,7 +22,6 @@ class UserPreferencesService(private val userPreferencesRepository: UserPreferen
             .orElseThrow { EntityNotFoundException("User not found with id: '${userPreferencesDTO.userId}'") }
         user.isActive(userRepository, user)
         val userPreferences = userPreferencesDTO.toUserPreferences(user)
-
         return userPreferencesRepository.save(userPreferences)
     }
 

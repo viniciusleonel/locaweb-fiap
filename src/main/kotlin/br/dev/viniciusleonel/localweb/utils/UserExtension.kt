@@ -67,8 +67,9 @@ fun User.toUserDetailsDTO(user: User): UserDetailsDTO {
     )
 }
 
-fun User.toUserListDTO(): UserListDTO {
-    return UserListDTO(
+fun User.toUserListDTO(): UserListDTO? {
+    return this.userPreferences?.let {
+        UserListDTO(
         id = this.id,
         name = this.name,
         username = this.username,
@@ -76,10 +77,11 @@ fun User.toUserListDTO(): UserListDTO {
         isLoggedIn = this.isLoggedIn,
         lastLogin = this.lastLogin,
         status = this.status,
-        userPreferences = this.userPreferences,
+        userPreferences = it,
         sentEmails = this.getSentEmailsDTO(),
         receivedEmails = this.getReceivedEmailsDTO()
     )
+    }
 }
 
 fun Page<User>.toUserListDTOPage(): Page<UserListDTO> {

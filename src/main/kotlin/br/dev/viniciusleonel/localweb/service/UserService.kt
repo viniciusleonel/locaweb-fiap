@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class UserService(private val repository: UserRepository, private val passwordService: EncodeService) {
 
-    fun getUserById(id: Long): UserListDTO {
+    fun getUserById(id: Long): UserListDTO? {
         val user = repository.findById(id).orElseThrow { EntityNotFoundException("User not found with id: '$id'") }
         user.isActive(repository, user)
         return user.toUserListDTO()
@@ -49,6 +49,11 @@ class UserService(private val repository: UserRepository, private val passwordSe
     fun insertUser(userDTO: UserDTO): User {
         userDTO.exists(repository, userDTO)
         val user = userDTO.toModel(passwordService)
+        return repository.save(user)
+    }
+
+    @Transactional
+    fun saveUserWithPreferences(user: User): User {
         return repository.save(user)
     }
 
