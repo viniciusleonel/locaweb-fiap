@@ -23,7 +23,7 @@ class UserService(private val repository: UserRepository, private val passwordSe
     }
 
     @Transactional
-    fun login(loginDTO: UserLogInDTO): UserDetailsDTO {
+    fun login(loginDTO: UserLogInDTO): UserDetailsDTO? {
         val user = repository.findByUsername(loginDTO.username)
             ?: throw EntityNotFoundException("User not found with username: '${loginDTO.username}'")
         user.isActive(repository, user, "login")

@@ -57,14 +57,17 @@ fun User.updateFromDTO(updateUserDTO: UserUpdateDTO, passwordService: EncodeServ
     updateUserDTO.password?.takeIf { it.isNotBlank() }?.let { this.password = passwordService.encodePassword(it) }
 }
 
-fun User.toUserDetailsDTO(user: User): UserDetailsDTO {
-    return UserDetailsDTO(
+fun User.toUserDetailsDTO(user: User): UserDetailsDTO? {
+    return this.userPreferences?.let {
+        UserDetailsDTO(
         id = this.id,
         name = this.name,
         username = this.username,
         email = this.email,
         isLoggedIn = this.isLoggedIn,
+        userPreferences = it
     )
+    }
 }
 
 fun User.toUserListDTO(): UserListDTO? {
