@@ -9,4 +9,6 @@ interface EmailRepository: JpaRepository<Email, Long>{
 
     fun findAllBySentByUserId(sentByUser: Long, pageable: Pageable) : Page<Email>
 
+    fun findAllByReceivedByUserId(receivedBy: Long, pageable: Pageable) : Page<Email>
+
 }

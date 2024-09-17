@@ -23,9 +23,15 @@ class EmailController(private val emailService: EmailService) {
         return ResponseEntity.ok(savedPreferences)
     }
 
-    @GetMapping("/user/{id}")
-    fun listEmailsByUser(@PathVariable id: Long, @PageableDefault(size = 10, sort = ["id"])pageable: Pageable): ResponseEntity<Page<EmailDetailsDTO>> {
-        val list = emailService.listEmailsByUser(id, pageable)
+    @GetMapping("/sent/{id}")
+    fun listSentEmailsByUserId(@PathVariable id: Long, @PageableDefault(size = 10, sort = ["id"])pageable: Pageable): ResponseEntity<Page<EmailDetailsDTO>> {
+        val list = emailService.listSentEmailsByUserId(id, pageable)
+        return ResponseEntity.ok(list)
+    }
+
+    @GetMapping("/received/{id}")
+    fun listReceivedEmailsByUserId(@PathVariable id: Long, @PageableDefault(size = 10, sort = ["id"])pageable: Pageable): ResponseEntity<Page<EmailDetailsDTO>> {
+        val list = emailService.listReceivedEmailsByUserId(id, pageable)
         return ResponseEntity.ok(list)
     }
 

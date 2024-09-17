@@ -18,11 +18,15 @@ GET http://localhost:8080/api/email/9
 
 ###
 
-# Listar Emails do usuário(sendByUser) ( Sem Body )
-GET http://localhost:8080/api/email/user/10
+# Listar emails enviados pelo usuário ( Sem Body )
+GET http://localhost:8080/api/email/sent/10
 
 ###
 
+# Listar emails recebidos do usuário ( Sem Body )
+GET http://localhost:8080/api/received/received/10
+
+###
 
 # Deletar Email por ID
 DELETE http://localhost:8080/api/email/1
