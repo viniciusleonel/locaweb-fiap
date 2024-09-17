@@ -64,14 +64,14 @@ class EmailService(
     }
 
     fun listReceivedEmailsByUserId(id: Long, pageable: Pageable): Page<EmailDetailsDTO> {
-        val page = emailRepository.findAllBySentByUserId(id, pageable)
+        val page = emailRepository.findAllByReceivedByUserId(id, pageable)
         val sender = userRepository.findById(id).orElseThrow { EntityNotFoundException("User not found with id: $id") }
         sender.isActive(userRepository)
         return page.toEmailDetailsDTO()
     }
 
     fun listSentEmailsByUserId(id: Long, pageable: Pageable): Page<EmailDetailsDTO> {
-        val page = emailRepository.findAllByReceivedByUserId(id, pageable)
+        val page = emailRepository.findAllBySentByUserId(id, pageable)
         val sender = userRepository.findById(id).orElseThrow { EntityNotFoundException("User not found with id: $id") }
         sender.isActive(userRepository)
         return page.toEmailDetailsDTO()
