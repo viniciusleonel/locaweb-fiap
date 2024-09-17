@@ -18,7 +18,7 @@ class UserService(private val repository: UserRepository, private val passwordSe
 
     fun getUserById(id: Long): UserListDTO? {
         val user = repository.findById(id).orElseThrow { EntityNotFoundException("User not found with id: '$id'") }
-        user.isActive(repository, user)
+        user.isActive(repository)
         return user.toUserListDTO()
     }
 
@@ -26,19 +26,19 @@ class UserService(private val repository: UserRepository, private val passwordSe
     fun login(loginDTO: UserLogInDTO): UserDetailsDTO? {
         val user = repository.findByUsername(loginDTO.username)
             ?: throw EntityNotFoundException("User not found with username: '${loginDTO.username}'")
-        user.isActive(repository, user, "login")
+        user.isActive(repository, "login")
         if (!passwordService.matches(loginDTO.password, user.password))
             throw CustomException("Invalid password")
         user.logIn()
         repository.save(user)
-        return user.toUserDetailsDTO(user)
+        return user.toUserDetailsDTO()
     }
 
     @Transactional
     fun logout(logoutDTO: UserLogOutDTO): MessageDTO {
         val user = repository.findByUsername(logoutDTO.username)
             ?: throw EntityNotFoundException("User not found with username: '${logoutDTO.username}'")
-        user.isActive(repository, user)
+        user.isActive(repository)
         if (user.isLoggedIn) {
             user.logOut()
             return MessageDTO("User '${logoutDTO.username}' is logged out!")
@@ -66,7 +66,7 @@ class UserService(private val repository: UserRepository, private val passwordSe
     fun updateUser(id: Long, updateUserDTO: UserUpdateDTO): User {
         val user = repository.findById(id)
             .orElseThrow { EntityNotFoundException("User not found with id: '$id'") }
-        user.isActive(repository, user)
+        user.isActive(repository)
         user.updateFromDTO(updateUserDTO, passwordService)
 
         return repository.save(user)
@@ -76,7 +76,7 @@ class UserService(private val repository: UserRepository, private val passwordSe
     fun deleteUser(id: Long): MessageDTO {
         val user = repository.findById(id)
             .orElseThrow { EntityNotFoundException("User not found with id: '$id'") }
-        user.isActive(repository, user)
+        user.isActive(repository)
         user.logOut()
         user.deleteUser()
         return MessageDTO("User '${user.username}' is deleted")

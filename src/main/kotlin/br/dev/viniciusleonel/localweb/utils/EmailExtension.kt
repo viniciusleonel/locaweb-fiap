@@ -14,15 +14,6 @@ fun EmailDTO.generateEmailWithSenderAndRecipient(sender: User, recipient: User):
     )
 }
 
-fun EmailDTO.toEmail(email: Email): Email {
-    return Email(
-        sentByUser = email.sentByUser,
-        receivedByUser = email.receivedByUser,
-        subject = email.subject,
-        body = email.body
-    )
-}
-
 fun Page<Email>.toEmailDetailsDTO(): Page<EmailDetailsDTO> {
     return this.map { email ->
         EmailDetailsDTO(

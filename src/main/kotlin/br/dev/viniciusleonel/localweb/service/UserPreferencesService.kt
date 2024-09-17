@@ -1,13 +1,11 @@
 package br.dev.viniciusleonel.localweb.service
 
 import br.dev.viniciusleonel.localweb.dto.MessageDTO
-import br.dev.viniciusleonel.localweb.dto.preferences.UserPreferencesDTO
 import br.dev.viniciusleonel.localweb.dto.preferences.UserUpdatePreferencesDTO
 import br.dev.viniciusleonel.localweb.model.UserPreferences
 import br.dev.viniciusleonel.localweb.repository.UserPreferencesRepository
 import br.dev.viniciusleonel.localweb.repository.UserRepository
 import br.dev.viniciusleonel.localweb.utils.isActive
-import br.dev.viniciusleonel.localweb.utils.toUserPreferences
 import br.dev.viniciusleonel.localweb.utils.updateFromDTO
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service

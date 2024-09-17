@@ -14,10 +14,8 @@ class SpamControlService {
         val now = LocalDateTime.now()
         val emailTimes = sentEmails.getOrDefault(userEmail, mutableListOf())
 
-        // Remover registros antigos
         emailTimes.removeIf { it.isBefore(now.minus(timeFrame, ChronoUnit.MINUTES)) }
 
-        // Verificar se o usuário pode enviar mais e-mails
         return if (emailTimes.size < emailLimit) {
             emailTimes.add(now)
             sentEmails[userEmail] = emailTimes

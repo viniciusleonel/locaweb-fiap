@@ -19,7 +19,7 @@ class SecurityConfig  {
         authManagerBuilder
             .inMemoryAuthentication()
             .withUser("user")
-            .password("{noop}password") // {noop} indica que a senha não será codificado
+            .password("{noop}password")
         return authManagerBuilder.build()
     }
 

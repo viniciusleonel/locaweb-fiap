@@ -52,7 +52,6 @@ class EmailService(
         if (!recipient.status)
             throw CustomException("User not found: '${recipient.email}'", HttpStatus.NOT_FOUND)
 
-        // Verificar se o usuário pode enviar mais e-mails
         if (!spamControlService.canSendEmail(sender.email))
             throw CustomException("Email sending limit reached for user: '${sender.email}'", HttpStatus.TOO_MANY_REQUESTS)
 

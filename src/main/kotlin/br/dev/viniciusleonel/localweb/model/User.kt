@@ -6,9 +6,6 @@ import br.dev.viniciusleonel.localweb.utils.toReceivedEmailDTO
 import br.dev.viniciusleonel.localweb.utils.toSentEmailDTO
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
-import org.hibernate.annotations.LazyToOne
-import org.hibernate.annotations.LazyToOneOption
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Entity

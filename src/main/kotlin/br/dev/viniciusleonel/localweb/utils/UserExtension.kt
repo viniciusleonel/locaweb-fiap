@@ -24,8 +24,8 @@ fun UserDTO.exists(repository: UserRepository, userDTO: UserDTO) : UserDTO {
 }
 
 @Transactional
-fun User.isActive(repository: UserRepository, user: User, endpoint: String = "")  {
-    val checkUser = repository.findByUsername(user.username)
+fun User.isActive(repository: UserRepository, endpoint: String = "")  {
+    val checkUser = repository.findByUsername(this.username)
     val timeNow = LocalDateTime.now()
     if (checkUser != null) {
         if (!checkUser.status)
@@ -57,7 +57,7 @@ fun User.updateFromDTO(updateUserDTO: UserUpdateDTO, passwordService: EncodeServ
     updateUserDTO.password?.takeIf { it.isNotBlank() }?.let { this.password = passwordService.encodePassword(it) }
 }
 
-fun User.toUserDetailsDTO(user: User): UserDetailsDTO? {
+fun User.toUserDetailsDTO(): UserDetailsDTO? {
     return this.userPreferences?.let {
         UserDetailsDTO(
         id = this.id,
