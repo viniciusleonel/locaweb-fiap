@@ -10,7 +10,10 @@ import br.dev.viniciusleonel.localweb.model.Email
 import br.dev.viniciusleonel.localweb.model.User
 import br.dev.viniciusleonel.localweb.repository.EmailRepository
 import br.dev.viniciusleonel.localweb.repository.UserRepository
-import br.dev.viniciusleonel.localweb.utils.*
+import br.dev.viniciusleonel.localweb.utils.generateEmailWithSenderAndRecipient
+import br.dev.viniciusleonel.localweb.utils.isActive
+import br.dev.viniciusleonel.localweb.utils.toEmailDetailsDTO
+import br.dev.viniciusleonel.localweb.utils.toSentEmailDTO
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -61,23 +64,10 @@ class EmailService(
         return email.toSentEmailDTO()
     }
 
-    // Analisar necessidade
-    fun listEmails(pageable: Pageable): Page<EmailDetailsDTO> {
-        val page = emailRepository.findAll(pageable)
-        return page.toEmailDetailsDTO()
-    }
-
-    fun listEmailsBySender(id: Long, pageable: Pageable): Page<EmailDetailsDTO> {
+    fun listEmailsByUser(id: Long, pageable: Pageable): Page<EmailDetailsDTO> {
         val page = emailRepository.findAllBySentByUserId(id, pageable)
         val sender = userRepository.findById(id).orElseThrow { EntityNotFoundException("User not found with id: $id") }
         sender.isActive(userRepository, sender)
-        return page.toEmailDetailsDTO()
-    }
-
-    fun listEmailsByReceiver(id: Long, pageable: Pageable): Page<EmailDetailsDTO> {
-        val page = emailRepository.findAllByReceivedByUserId(id, pageable)
-        val receiver = userRepository.findById(id).orElseThrow { EntityNotFoundException("User not found with id: $id") }
-        receiver.isActive(userRepository, receiver)
         return page.toEmailDetailsDTO()
     }
 

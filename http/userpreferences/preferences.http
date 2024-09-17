@@ -1,34 +1,14 @@
 
 
-# Cadastrar preferências - Necessário usuário estar logado!*
-POST http://localhost:8080/api/preferences
-Content-Type: application/json
-
-{
-  "theme": "dark",
-  "colorScheme": "dark-purple",
-  "categories": "stared",
-  "labels": "purple",
-  "userId": 11
-}
-
-###
-
-
-# Buscar preferência ( Inserir o ID correto ) - Necessário usuário estar logado!*
-GET http://localhost:8080/api/preferences/5
+# Buscar preferência por ID do User ( Inserir o ID correto ) - Necessário usuário estar logado!*
+GET http://localhost:8080/api/preferences/user/5
 
 
 ###
 
-
-# Listar preferências de um usuário ( Inserir o ID correto ) - Necessário usuário estar logado!*
-GET http://localhost:8080/api/preferences/user/11
-
-
 ###
 
-# Atualizar preferência ( Inserir o ID correto ) - Necessário usuário estar logado!*
+# Atualizar preferência por ID ( Inserir o ID correto ) - Necessário usuário estar logado!*
 PUT http://localhost:8080/api/preferences/5
 Content-Type: application/json
 
@@ -36,8 +16,7 @@ Content-Type: application/json
   "theme": "light",
   "color_scheme": "light-grey",
   "categories": "stared",
-  "labels": "grey",
-  "user_id": 3
+  "labels": "grey"
 }
 
 

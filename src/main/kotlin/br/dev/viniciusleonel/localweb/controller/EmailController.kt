@@ -23,32 +23,20 @@ class EmailController(private val emailService: EmailService) {
         return ResponseEntity.ok(savedPreferences)
     }
 
-    @GetMapping
-    fun listEmails(@PageableDefault(size = 10, sort = ["id"])pageable: Pageable): ResponseEntity<Page<EmailDetailsDTO>> {
-        val list = emailService.listEmails(pageable)
-        return ResponseEntity.ok(list)
-    }
-
-    @GetMapping("/sender/{id}")
-    fun listEmailsBySender(@PathVariable id: Long, @PageableDefault(size = 10, sort = ["id"])pageable: Pageable): ResponseEntity<Page<EmailDetailsDTO>> {
-        val list = emailService.listEmailsBySender(id, pageable)
-        return ResponseEntity.ok(list)
-    }
-
-    @GetMapping("/receiver/{id}")
-    fun listEmailsByReceiver(@PathVariable id: Long, @PageableDefault(size = 10, sort = ["id"])pageable: Pageable): ResponseEntity<Page<EmailDetailsDTO>> {
-        val list = emailService.listEmailsByReceiver(id, pageable)
+    @GetMapping("/user/{id}")
+    fun listEmailsByUser(@PathVariable id: Long, @PageableDefault(size = 10, sort = ["id"])pageable: Pageable): ResponseEntity<Page<EmailDetailsDTO>> {
+        val list = emailService.listEmailsByUser(id, pageable)
         return ResponseEntity.ok(list)
     }
 
     @GetMapping("/{emailId}")
-    fun getUser(@PathVariable emailId: Long): ResponseEntity<EmailDetailsWithBodyDTO> {
+    fun getEmailById(@PathVariable emailId: Long): ResponseEntity<EmailDetailsWithBodyDTO> {
         val preferences = emailService.getEmailById(emailId)
         return ResponseEntity.ok(preferences)
     }
 
     @DeleteMapping("/{emailId}")
-    fun deleteUser(@PathVariable emailId: Long): ResponseEntity<MessageDTO> {
+    fun deleteEmailById(@PathVariable emailId: Long): ResponseEntity<MessageDTO> {
         val response = emailService.deleteEmailById(emailId)
         return ResponseEntity.ok(response)
     }

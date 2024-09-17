@@ -17,15 +17,6 @@ import org.springframework.transaction.annotation.Transactional
 class UserPreferencesService(private val userPreferencesRepository: UserPreferencesRepository, private val userRepository: UserRepository) {
 
     @Transactional
-    fun savePreferences(userPreferencesDTO: UserPreferencesDTO): UserPreferences {
-        val user = userRepository.findById(userPreferencesDTO.userId)
-            .orElseThrow { EntityNotFoundException("User not found with id: '${userPreferencesDTO.userId}'") }
-        user.isActive(userRepository, user)
-        val userPreferences = userPreferencesDTO.toUserPreferences(user)
-        return userPreferencesRepository.save(userPreferences)
-    }
-
-    @Transactional
     fun updatePreferences(id: Long, updateDTO: UserUpdatePreferencesDTO): UserPreferences {
         val preferences = userPreferencesRepository.findById(id)
             .orElseThrow { EntityNotFoundException("Preferences not found with id: '$id'") }
@@ -49,17 +40,6 @@ class UserPreferencesService(private val userPreferencesRepository: UserPreferen
         user?.isActive(userRepository, user)
         userPreferencesRepository.delete(preferences)
         return MessageDTO("Preference '${preferences.id}' is deleted")
-    }
-
-    fun getPreferencesById(id: Long): UserPreferences {
-        val preferences = userPreferencesRepository.findById(id)
-            .orElseThrow { EntityNotFoundException("Preferences not found with id: '$id'") }
-        val user = preferences.user?.let {
-            userRepository.findById(it.id)
-                .orElseThrow { EntityNotFoundException("User not found with id: '${preferences.user!!.id}'") }
-        }
-        user?.isActive(userRepository, user)
-        return preferences
     }
 
     fun getPreferencesByUserId(userId: Long): UserPreferences {

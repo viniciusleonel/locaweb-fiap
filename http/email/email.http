@@ -13,27 +13,18 @@ Content-Type: application/json
 
 ###
 
-# Listar Emails ( Sem Body )
-GET http://localhost:8080/api/email
-
-###
-
-# Buscar Email ( Com Body )
+# Buscar Email por ID ( Com Body )
 GET http://localhost:8080/api/email/9
 
 ###
 
-# Listar Emails por remetente(sendByUser) ( Sem Body )
-GET http://localhost:8080/api/email/sender/10
+# Listar Emails do usuário(sendByUser) ( Sem Body )
+GET http://localhost:8080/api/email/user/10
 
 ###
 
-# Listar Emails por destinatario(receiveByUser) ( Sem Body )
-GET http://localhost:8080/api/email/receiver/10
 
-###
-
-# Deletar Email
+# Deletar Email por ID
 DELETE http://localhost:8080/api/email/1
 
 ###

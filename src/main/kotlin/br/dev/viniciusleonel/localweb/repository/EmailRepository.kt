@@ -8,9 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface EmailRepository: JpaRepository<Email, Long>{
 
-    override fun findAll(pageable: Pageable) : Page<Email>
-
     fun findAllBySentByUserId(sentByUser: Long, pageable: Pageable) : Page<Email>
 
-    fun findAllByReceivedByUserId(sentByUser: Long, pageable: Pageable) : Page<Email>
 }

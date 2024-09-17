@@ -15,12 +15,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/preferences")
 class UserPreferencesController(private val service: UserPreferencesService) {
 
-    @PostMapping
-    fun savePreferences(@RequestBody @Valid preferencesDTO: UserPreferencesDTO): ResponseEntity<UserPreferences> {
-        val savedPreferences = service.savePreferences(preferencesDTO)
-        return ResponseEntity.ok(savedPreferences)
-    }
-
     @PutMapping("/{id}")
     fun updatePreferences(@PathVariable id: Long, @RequestBody @Valid updateDTO: UserUpdatePreferencesDTO): ResponseEntity<UserPreferences> {
         val updatedPreferences = service.updatePreferences(id, updateDTO)
@@ -33,17 +27,9 @@ class UserPreferencesController(private val service: UserPreferencesService) {
         return ResponseEntity.ok(response)
     }
 
-    @GetMapping("/{preferencesId}")
-    fun getPreferencesById(@PathVariable preferencesId: Long): ResponseEntity<UserPreferencesResponseDTO> {
-        val preferences = service.getPreferencesById(preferencesId)
-        return ResponseEntity.ok(preferences.toResponseDTO())
-    }
-
     @GetMapping("/user/{userId}")
     fun getPreferencesByUserId(@PathVariable userId: Long): ResponseEntity<UserPreferences> {
         val preferences = service.getPreferencesByUserId(userId)
         return ResponseEntity.ok(preferences)
     }
-
-
 }

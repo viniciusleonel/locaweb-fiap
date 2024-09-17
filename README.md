@@ -112,9 +112,17 @@ Exemplo: `http://localhost:8080/api/user?page=0&size=1&sort=name,desc`
   "username": "teste",
   "password": "$2a$10$VO4VMk9JtrnJvvdLq3odnuZDugDdGuYUp3h9VmfKlc.mODYGoK.Hi",
   "isLoggedIn": false,
+  "lastLogin": "2022-01-01T00:00:00",
+  "status": true,
+  "userPreferences": {
+    "id": 1,
+    "theme": "",
+    "colorScheme": "",
+    "categories": "",
+    "labels": ""
+  },
   "receivedEmails": [],
-  "sentEmails": [],
-  "userPreferences": []
+  "sentEmails": []
 }
 ```
 
@@ -135,7 +143,14 @@ Exemplo: `http://localhost:8080/api/user?page=0&size=1&sort=name,desc`
 ```json
 {
   "username": "teste",
-  "password": "123456"
+  "password": "123456",
+  "userPreferences": {
+    "id": 3,
+    "theme": "",
+    "colorScheme": "",
+    "categories": "",
+    "labels": ""
+  }
 }
 ```
 
@@ -160,7 +175,7 @@ Exemplo: `http://localhost:8080/api/user?page=0&size=1&sort=name,desc`
 
 #### Deletar usuário: DELETE http://localhost:8080/api/user/{id}
 - Necessário usuário estar logado!*
-- Será deletado um único usuário.
+- Será deletado um único usuário.(Status será atribuído com o valor 'false')
 
 #### Logout: POST http://localhost:8080/api/user/logout
 - Necessário usuário estar logado!*
@@ -184,63 +199,16 @@ Exemplo: `http://localhost:8080/api/user?page=0&size=1&sort=name,desc`
 
 ### Preferences - Necessário usuário estar logado!*
 
-#### Cadastrar preferências: POST http://localhost:8080/api/preferences
+#### Buscar preferências de um usuário pelo ID: GET http://localhost:8080/api/preferences/user/{id}
+- Necessário usuário estar logado!*
 
-- Formato Json
-```json
-{
-  "theme": "dark",
-  "colorScheme": "dark-purple",
-  "categories": "stared",
-  "labels": "purple",
-  "userId": 3
-}
-```
-
-- Validações:
-```json
-{
-  "userId": "User ID is required"
-}
-```
-
-#### Buscar preferência: GET http://localhost:8080/api/preferences/{id}
-- Será retornado um único usuário.
-
-#### Listar preferências de um usuário: GET http://localhost:8080/api/preferences/user/{id}
-- Será retornada uma lista de preferências de um usuário com paginação.
-
-#### Atualizar preferência: PUT http://localhost:8080/api/preferences/{id}
+#### Atualizar preferência por ID: PUT http://localhost:8080/api/preferences/{id}
 - Será atualizado somente os campos que não estiverem vazios.
 
 #### Deletar preferência: DELETE http://localhost:8080/api/preferences/{id}
 - Será deletado um único usuário.
 
-Ao adicionar uma prefência ela será atrelada ao usuário automaticamente cujo id foi informado.
-
-
-- Retorno de um User com Preferências adicionadas a ele.
-```json
-{
-  "id": 1,
-  "name": "Name",
-  "email": "teste@gmail.com",
-  "username": "teste",
-  "password": "$2a$10$VO4VMk9JtrnJvvdLq3odnuZDugDdGuYUp3h9VmfKlc.mODYGoK.Hi",
-  "isLoggedIn": true,
-  "receivedEmails": [],
-  "sentEmails": [],
-  "userPreferences": [
-    {
-      "id": 1,
-      "theme": "dark",
-      "colorScheme": "dark-purple",
-      "categories": "stared",
-      "labels": "purple"
-    }
-  ]
-}
-```
+As preferências de um usuário são criadas junto com o registro do mesmo, sendo inicialmente vazias.
 
 ### Emails - Usuário remetente necessário estar logado!*
 
@@ -297,24 +265,7 @@ Ao adicionar uma prefência ela será atrelada ao usuário automaticamente cujo 
 }
 ```
 
-#### Listar emails: GET http://localhost:8080/api/email
-- Será retornada uma lista de emails com paginação sem campo `body`.
-```json
-{
-  "id": 1,
-  "sendByUser": "user1@gmail.com",
-  "receiveByUser": "user2@gmail.com",
-  "subject": "Email Teste",
-  "body": "Estou mandando um email teste",
-  "sendAt": "2024-09-01T13:50:26.716468",
-  "wasRead": true
-}
-```
-
-#### Listar emails por remetente (`sendByUser`): GET http://localhost:8080/api/email/sender/{id}
-- Será retornada uma lista de emails com paginação sem campo `body`.
-
-#### Listar emails por destinatario (`receiveByUser`): GET http://localhost:8080/api/email/receiver/{id}
+#### Listar emails do usuário (`sendByUser`): GET http://localhost:8080/api/email/user/{id}
 - Será retornada uma lista de emails com paginação sem campo `body`.
 
 #### Deletar email: DELETE http://localhost:8080/api/email/{id}
