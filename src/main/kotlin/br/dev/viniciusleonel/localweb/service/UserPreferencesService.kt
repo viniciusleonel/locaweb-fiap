@@ -22,7 +22,7 @@ class UserPreferencesService(private val userPreferencesRepository: UserPreferen
             userRepository.findById(it.id)
                 .orElseThrow { EntityNotFoundException("User not found with id: '${preferences.user!!.id}'") }
         }
-        user?.isActive(userRepository, user)
+        user?.isActive(userRepository)
         preferences.updateFromDTO(updateDTO)
         return userPreferencesRepository.save(preferences)
     }
@@ -35,14 +35,14 @@ class UserPreferencesService(private val userPreferencesRepository: UserPreferen
             userRepository.findById(it.id)
                 .orElseThrow { EntityNotFoundException("User not found with id: '${preferences.user!!.id}'") }
         }
-        user?.isActive(userRepository, user)
+        user?.isActive(userRepository)
         userPreferencesRepository.delete(preferences)
         return MessageDTO("Preference '${preferences.id}' is deleted")
     }
 
     fun getPreferencesByUserId(userId: Long): UserPreferences {
         val user = userRepository.findById(userId).orElseThrow { EntityNotFoundException("User not found with id: '$userId'") }
-        user.isActive(userRepository, user)
+        user.isActive(userRepository)
         return userPreferencesRepository.findAllByUserId(userId)
     }
 

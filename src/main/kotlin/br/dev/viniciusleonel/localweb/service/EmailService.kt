@@ -48,7 +48,7 @@ class EmailService(
         val recipient   = userRepository.findByEmail(emailDTO.receivedByUser)
             ?: throw EntityNotFoundException("User not found with email: '${emailDTO.receivedByUser}'")
 
-        sender.isActive(userRepository, sender)
+        sender.isActive(userRepository)
         if (!recipient.status)
             throw CustomException("User not found: '${recipient.email}'", HttpStatus.NOT_FOUND)
 
@@ -66,7 +66,7 @@ class EmailService(
     fun listEmailsByUser(id: Long, pageable: Pageable): Page<EmailDetailsDTO> {
         val page = emailRepository.findAllBySentByUserId(id, pageable)
         val sender = userRepository.findById(id).orElseThrow { EntityNotFoundException("User not found with id: $id") }
-        sender.isActive(userRepository, sender)
+        sender.isActive(userRepository)
         return page.toEmailDetailsDTO()
     }
 
@@ -74,7 +74,7 @@ class EmailService(
     fun deleteEmailById(id: Long) : MessageDTO{
         val email = emailRepository.findById(id)
             .orElseThrow { EntityNotFoundException("Email not found with id: '$id'") }
-        email.sentByUser.isActive(userRepository, email.sentByUser)
+        email.sentByUser.isActive(userRepository)
         emailRepository.delete(email)
         return MessageDTO("Email with id: '$id' was deleted")
     }
@@ -82,7 +82,7 @@ class EmailService(
     @Transactional
     fun getEmailById(id: Long): EmailDetailsWithBodyDTO {
         val email = emailRepository.findById(id).orElseThrow { EntityNotFoundException("Email not found with id: '$id'") }
-        email.sentByUser.isActive(userRepository, email.sentByUser)
+        email.sentByUser.isActive(userRepository)
         email.wasRead = true
         emailRepository.save(email)
         return email.toEmailDetailsDTO()
