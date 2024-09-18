@@ -249,7 +249,8 @@ As preferências de um usuário são criadas junto com o registro do mesmo, send
 }
 ```
 
-#### Buscar email: GET http://localhost:8080/api/email/{id}
+#### Buscar email: GET http://localhost:8080/api/email/{emailId}/user/{userId}
+- Somente quem estiver presente no email (destinatário ou remetente) poderá buscá-lo 
 - Será retornado um único email com `body`.
 - Campo `wasRead` será alterado para `true`
 

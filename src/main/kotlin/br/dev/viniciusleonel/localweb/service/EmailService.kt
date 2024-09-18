@@ -87,12 +87,43 @@ class EmailService(
     }
 
     @Transactional
-    fun getEmailById(id: Long): EmailDetailsWithBodyDTO {
-        val email = emailRepository.findById(id).orElseThrow { EntityNotFoundException("Email not found with id: '$id'") }
-        email.sentByUser.isActive(userRepository)
+    fun getEmailById(id: Long, userId: Long): EmailDetailsWithBodyDTO {
+        val email = emailRepository.findById(id).orElseThrow {
+            EntityNotFoundException("Email not found with id: '$id'")
+        }
+        val currentUser = userRepository.findById(userId).orElseThrow {
+            EntityNotFoundException("User not found with id: '$userId'")
+        }
+
+        val sender = email.sentByUser
+        val recipient = email.receivedByUser
+
+        val senderIsActive = try {
+            sender.isActive(userRepository)
+            true
+        } catch (e: CustomException) {
+            false
+        }
+
+        val recipientIsActive = try {
+            recipient.isActive(userRepository)
+            true
+        } catch (e: CustomException) {
+            false
+        }
+
+        if (currentUser != sender && currentUser != recipient) {
+            throw CustomException("You do not have permission to access this email.", HttpStatus.FORBIDDEN)
+        }
+
+        if (!(senderIsActive || recipientIsActive)) {
+            throw CustomException("Neither the sender nor the recipient is active or logged in.", HttpStatus.UNAUTHORIZED)
+        }
+
         email.wasRead = true
         emailRepository.save(email)
         return email.toEmailDetailsDTO()
     }
+
 
 }

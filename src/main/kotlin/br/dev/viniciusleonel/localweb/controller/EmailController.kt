@@ -35,9 +35,9 @@ class EmailController(private val emailService: EmailService) {
         return ResponseEntity.ok(list)
     }
 
-    @GetMapping("/{emailId}")
-    fun getEmailById(@PathVariable emailId: Long): ResponseEntity<EmailDetailsWithBodyDTO> {
-        val preferences = emailService.getEmailById(emailId)
+    @GetMapping("/{emailId}/user/{userId}")
+    fun getEmailById(@PathVariable emailId: Long,@PathVariable userId: Long): ResponseEntity<EmailDetailsWithBodyDTO> {
+        val preferences = emailService.getEmailById(emailId, userId)
         return ResponseEntity.ok(preferences)
     }
 

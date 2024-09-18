@@ -14,7 +14,7 @@ Content-Type: application/json
 ###
 
 # Buscar Email por ID ( Com Body )
-GET http://localhost:8080/api/email/9
+GET http://localhost:8080/api/email/{emailId}/user/{userId}
 
 ###
 
