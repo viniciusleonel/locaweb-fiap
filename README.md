@@ -266,10 +266,10 @@ As preferências de um usuário são criadas junto com o registro do mesmo, send
 }
 ```
 
-#### Listar emails enviados pelo usuário: GET http://localhost:8080/api/email/sent/{id}
+#### Listar emails enviados pelo usuário: GET http://localhost:8080/api/email/sent/{id}?sort=sentAt,desc
 - Será retornada uma lista de emails com paginação sem campo `body`.
 
-#### Listar emails recebidos do usuário: GET http://localhost:8080/api/email/received/{id}
+#### Listar emails recebidos do usuário: GET http://localhost:8080/api/email/received/{id}?sort=sentAt,desc
 - Será retornada uma lista de emails com paginação sem campo `body`.
 
 #### Deletar email: DELETE http://localhost:8080/api/email/{id}

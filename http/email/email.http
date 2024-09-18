@@ -19,12 +19,12 @@ GET http://localhost:8080/api/email/{emailId}/user/{userId}
 ###
 
 # Listar emails enviados pelo usuário ( Sem Body )
-GET http://localhost:8080/api/email/sent/10
+GET http://localhost:8080/api/email/sent/10?sort=sentAt,desc
 
 ###
 
 # Listar emails recebidos do usuário ( Sem Body )
-GET http://localhost:8080/api/received/received/10
+GET http://localhost:8080/api/received/received/10?sort=sentAt,desc
 
 ###
 
