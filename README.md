@@ -1,9 +1,9 @@
 # Locaweb API
 
-A API Locaweb é uma solução robusta desenvolvida em Kotlin e Spring para gerenciar usuários, 
+A API Locaweb é uma solução desenvolvida em Kotlin e Spring para gerenciar usuários, 
 preferências de usuários e emails em um aplicativo Kotlin da Locaweb. A API oferece endpoints 
 para operações CRUD (Create, Read, Update, Delete) em usuários e suas preferências, além de 
-funcionalidades para envio e gerenciamento de emails.
+funcionalidades para envio e gerenciamento de emails com controle de spans.
 
 Especificamente projetada para atender ao aplicativo da Locaweb, a API permite que os usuários 
 se cadastrem, salvem suas preferências do aplicativo (como configurações personalizadas e temas), 
