@@ -6,6 +6,8 @@ COPY build.gradle.kts settings.gradle.kts gradlew ./
 COPY gradle ./gradle
 COPY src ./src
 
+RUN chmod +x gradlew
+
 RUN ./gradlew build
 
 FROM openjdk:17-jdk-slim
