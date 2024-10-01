@@ -11,69 +11,39 @@ facilitando futuras migrações de dados. Além disso, ela permite o envio de em
 com controle rigoroso de acesso e de leitura, garantindo que essas operações sejam realizadas 
 apenas por usuários ativos e logados no sistema.
 
+Foi implementado um workflow de Integração Contínua (CI) utilizando GitHub Actions para testes e 
+builds em pull requests, e um processo de Entrega Contínua (CD) que realiza o deploy automático da 
+aplicação em produção. A aplicação é containerizada com Docker e implantada na Azure, garantindo 
+atualizações rápidas e escalabilidade.
+
+[Locaweb API Azure](https://locaweb-api-a9amgke0dmgth0ej.eastus2-01.azurewebsites.net/swagger-ui/index.html#/user-controller/login)
+
 ### Requisitos:
 - Ter o Docker instalado.
 - Ter o Java instalado.
 - Clonar este repositório: `git clone https://github.com/viniciusleonel/locaweb-fiap`.
 - Abra o projeto em sua IDE preferida (Indicamos o IntelliJ).
 
-## Criando uma database com Docker 
-1. Abra o terminal na pasta raiz do projeto.
-2. Inicie o contêiner do banco de dados definido em `docker-compose.database.yml` com o comando:
-   ```sh
-   docker-compose -f docker-compose.database.yml up -d
-   ``` 
-3. Obtenha o ID do container criado ( `mysql-database-locaweb` ) com o comando:
-    ```shell
-    docker ps
-    ```
-4. Acesse o MySql dentro do container com o comando:
-    ```shell
-    docker exec -it CONTAINER_ID mysql -u root -p
-    ```
-   Substitua `CONTAINER_ID ` pelo ID obtido no passo 3.
-5. Digite a senha `locaweb123` para acessar o MySql.
-6. Crie a database com o comando:
-    ```shell
-    create database locaweb;
-    ```
-   
-A database estará pronta para uso.
+## Configuração
 
-## Executando Locaweb API na IDE (INTELLIJ)
-1. Com a database criada, vá para o arquivos `application.properties` e descomente o seguinte código:
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/locaweb
-spring.datasource.username=locaweb
-spring.datasource.password=locaweb123
-```
+1. Configure a variável de ambiente `POSTGRES_DB_URL` no seu arquivo `.env` ou no seu ambiente.
 
 2. Agora execute a classe `LocawebApplication` e a API estará pronta para uso.
 
 ## Executando Locaweb API com Docker
-1. Com a database criada, vá para o arquivos `application.properties` e descomente o seguinte código:
-```properties
-spring.datasource.url=${SPRING_DATASOURCE_URL}
-spring.datasource.username=${SPRING_DATASOURCE_USERNAME}
-spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
-```
+
+1. Configure a variável de ambiente `POSTGRES_DB_URL` em `docker-compose`>`environment`
+
 
 2. Construa a imagem Docker da aplicação executando o seguinte comando no terminal na pasta raiz do projeto:
    ```sh
    docker build -t locaweb-api .
    ```
-3. Após a construção da imagem, inicie os contêineres definidos no `docker-compose.yml` com o comando:
+3. Após a construção da imagem, inicie o contêiner definidos no `docker-compose.yml` com o comando:
    ```sh
    docker-compose up -d
    ```
-   Isso irá iniciar os contêineres em segundo plano.
-
-Após executar o comando `docker-compose up -d`, serão criados três contêineres: `locaweb`, `database-locaweb` e `api-locaweb`. 
-O contêiner `database-locaweb` será responsável pelo banco de dados MySQL, enquanto o contêiner `api-locaweb` hospedará a aplicação 
-Locaweb API. O contêiner `locaweb` servirá como uma rede para conectar os outros dois contêineres. A aplicação estará pronta para uso 
-e poderá ser acessada através da URL base `http://localhost:8080/api`.
-
-### Documentação SpringDoc ( Swagger ): http://localhost:8080/swagger-ui/index.html
+   Isso irá iniciar o contêiner em segundo plano.
 
 ## Como Utilizar
 
@@ -289,5 +259,9 @@ marcando-o como não lido para o destinatário até que seja visualizado.
 - Kotlin
 - Spring
 - Hibernate (JPA)
-- MySQL
-- Docker
+- PostgreSQL
+- Docker & DockerHub
+- GitHub Actions
+- Microsoft Azure
+
+## **Criado por**: [Vinicius Leonel](https://www.linkedin.com/in/viniciuslps/)
