@@ -22,7 +22,7 @@ atualizações rápidas e escalabilidade.
 - Ter o Docker instalado.
 - Ter o Java instalado.
 - Clonar este repositório: `git clone https://github.com/viniciusleonel/locaweb-fiap`.
-- Abra o projeto em sua IDE preferida (Indicamos o IntelliJ).
+- Abra o projeto na sua IDE preferida (Indicamos o IntelliJ).
 
 ## Configuração
 
@@ -257,8 +257,10 @@ marcando-o como não lido para o destinatário até que seja visualizado.
 ## Tecnologias Utilizadas
 
 - Kotlin
-- Spring
+- Spring Boot
+- Spring Doc
 - Hibernate (JPA)
+- Swagger
 - PostgreSQL
 - Docker & DockerHub
 - GitHub Actions
