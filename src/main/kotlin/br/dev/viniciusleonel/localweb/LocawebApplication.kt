@@ -17,6 +17,4 @@ class LocawebApplication(val userRepository: UserRepository) {
 
 fun main(args: Array<String>) {
     runApplication<LocawebApplication>(*args)
-
-
 }
