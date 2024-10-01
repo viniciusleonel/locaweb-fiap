@@ -18,9 +18,12 @@ atualizações rápidas e escalabilidade.
 
 [Locaweb API Azure](https://locaweb-api-a9amgke0dmgth0ej.eastus2-01.azurewebsites.net/swagger-ui/index.html#/user-controller/login)
 
-### Requisitos:
+---
+
+## Requisitos:
 - Ter o Docker instalado.
 - Ter o Java instalado.
+- Ter um banco de dados PostgreSQL.
 - Clonar este repositório: `git clone https://github.com/viniciusleonel/locaweb-fiap`.
 - Abra o projeto na sua IDE preferida (Indicamos o IntelliJ).
 
