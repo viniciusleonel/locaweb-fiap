@@ -35,7 +35,7 @@ class SpringDocConfig {
                     .license(
                         License()
                             .name("GitHub")
-                            .url("https://github.com/viniciusleonel/traffic-incident-management-api")
+                            .url("https://github.com/viniciusleonel/locaweb-fiap")
                     )
             )
     }
