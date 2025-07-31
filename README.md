@@ -265,4 +265,8 @@ marcando-o como não lido para o destinatário até que seja visualizado.
 - GitHub Actions
 - Microsoft Azure
 
-## **Criado por**: [Vinicius Leonel](https://www.linkedin.com/in/viniciuslps/)
+## Criado por:
+
+### Vinicius Leonel
+
+### Linkedin: https://www.linkedin.com/in/viniciuslps
