@@ -12,7 +12,8 @@ builds em pull requests, e um processo de Entrega Contínua (CD) que realiza o d
 aplicação em produção. A aplicação é containerizada com Docker e implantada na Azure, garantindo 
 atualizações rápidas e escalabilidade.
 
-[Locaweb API Azure](https://locaweb-api-a9amgke0dmgth0ej.eastus2-01.azurewebsites.net/swagger-ui/index.html)
+<!--
+[Locaweb API Azure](https://locaweb-api-a9amgke0dmgth0ej.eastus2-01.azurewebsites.net/swagger-ui/index.html)-->
 
 ---
 
